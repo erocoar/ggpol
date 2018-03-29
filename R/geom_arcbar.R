@@ -50,9 +50,3 @@ geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
 
 
 ggplot(bt) + geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + coord_fixed()
-ggplot() + geom_circle(aes(x = c(3, 5), y = c(1, 5), r = c(2, 4), fill = gl(2, 1))) + coord_fixed()
-
-
-ggplot() + ggforce::geom_circle(aes(x0 = c(3, 5), y0 = c(1, 5), r=c(2, 4), fill = gl(2, 1))) + coord_fixed()
-
-

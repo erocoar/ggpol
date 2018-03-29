@@ -3,12 +3,19 @@ StatCircle <- ggproto("StatCircle", Stat,
   
   compute_panel = function(data, scales, n = 360) {
     angle <- seq(-pi, pi, length.out = n)
-    do.call(rbind,
-            lapply(nrow(data), function(i) {
-              data.frame(x = data$x[i] + data$r[i] * cos(angle),
-                         y = data$y[i] + data$r[i] * sin(angle),
-                         groups = i)
-            }))
+    df <- do.call(rbind,
+      lapply(1:nrow(data), function(i) {
+        data.frame(x = data$x[i] + data$r[i] * cos(angle),
+                   y = data$y[i] + data$r[i] * sin(angle),
+                   group = i)
+        })
+      )
+    
+    add_cols <- setdiff(c(colnames(data), "PANEL", "r"), colnames(df))
+    for (col_ in add_cols) {
+      df[, col_] <- rep(data[, col_], rle(df$group)$lengths)
+    }
+    df
     }
 )
 
