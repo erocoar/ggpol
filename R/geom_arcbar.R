@@ -28,7 +28,7 @@
 #'         seats   = c(200, 46, 153, 92, 80, 69, 67, 2),
 #'         colors  = c("black", "blue", "red", "lightblue", "yellow","purple", "green", "grey"),
 #'         stringsAsFactors = FALSE)
-#' ggplot_parliament2(bt$parties, bt$seats, bt$colors, sep = 0.05)
+#' ggplot(bt) + geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + coord_fixed()
 
 GeomArcBar <- ggproto("GeomArcBar", GeomPolygon,
                       default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
@@ -47,6 +47,3 @@ geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
         inherit.aes = inherit.aes,
         params = list(na.rm = na.rm, n = n, sep = sep, ...))
 }
-
-
-ggplot(bt) + geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + coord_fixed()
