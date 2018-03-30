@@ -11,9 +11,10 @@ StatCircle <- ggproto("StatCircle", Stat,
         })
       )
     
-    add_cols <- setdiff(c(colnames(data), "PANEL", "r"), colnames(df))
+    add_cols <- setdiff(colnames(data), c(colnames(df), "r"))
+
     for (col_ in add_cols) {
-      df[, col_] <- rep(data[, col_], rle(df$group)$lengths)
+      df[, col_] <- rep(data[, col_], each = n)
     }
     df
     }
