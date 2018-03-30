@@ -39,7 +39,6 @@ StatArcBar <- ggproto("StatArcBar", Stat,
     df <- as.data.frame(do.call(rbind, df))
     
     to_add <- setdiff(colnames(data), colnames(df))
-    toto <<- to_add
     for (col_ in to_add){
       df[, col_] <- rep(data[, col_], rle(df$group)$lengths)
     }
