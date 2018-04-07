@@ -3,3 +3,5 @@
 }
 
 seq_v <- function(x) seq(nrow(x))
+
+seq_h <- function(x) seq(ncol(x))
