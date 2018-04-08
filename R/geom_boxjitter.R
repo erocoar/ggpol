@@ -1,9 +1,101 @@
-#' @rdname ggparl-extensions
+#' A hybrid boxplot.
+#'
+#' Half boxplot, half scatterplot with customizable jitter.
+#' @inheritParams ggplot2::geom_boxplot
+#' 
+#' @param jitter.colour,jitter.color,jitter.fill,jitter.shape,jitter.size,jitter.stroke,jitter.alpha
+#' Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.
+#' 
+#' @param jitter.width Width passed to position_jitter. Defaults to half the width of the boxplot.
+#' 
+#' @param jitter.height Height passed to position_jitter. Defaults to 40 percent of the resolution.
+#' 
+#' @param jitter.seed Seed passed to position_jitter for reproducible jittering.
+#' 
+#' @param errorbar.draw Draw horizontal whiskers at the top and bottom (the IQR). Defaults to `FALSE`.
+#' 
+#' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot.
+#' 
+#' @importFrom ggplot2 layer
+#' @export
+#' @examples
+#' set.seed(221)
+#' df <- data.frame(score = rgamma(150, 4, 1), gender = sample(c("M", "F"), 150, replace = TRUE), 
+#'                  genotype = factor(sample(1:3, 150, replace = TRUE)))
+#' ggplot(df) + ggparl::geom_boxjitter(aes(x = gender, y = score, fill = genotype), 
+#'                                     jitter.shape = 21, jitter.color = NA, 
+#'                                     jitter.height = 0, jitter.width = 0.04,
+#'                                     outlier.color = NA) +
+#'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
+#'   theme_minimal()
+geom_boxjitter <- function(mapping = NULL, data = NULL,
+                           stat = "BoxJitter", position = "dodge",
+                           ...,
+                           outlier.colour = NULL,
+                           outlier.color = NULL,
+                           outlier.fill = NULL,
+                           outlier.shape = 19,
+                           outlier.size = 1.5,
+                           outlier.stroke = 0.5,
+                           outlier.alpha = NULL,
+                           jitter.colour = NULL,
+                           jitter.color = NULL,
+                           jitter.fill = NULL,
+                           jitter.shape = 19,
+                           jitter.size = 1.5,
+                           jitter.stroke = 0.5,
+                           jitter.alpha = NULL,
+                           jitter.width = NULL,
+                           jitter.height = NULL,
+                           jitter.seed = NULL,
+                           notch = FALSE,
+                           notchwidth = 0.5,
+                           varwidth = FALSE,
+                           errorbar.draw = FALSE,
+                           errorbar.length = 0.5,
+                           na.rm = FALSE,
+                           show.legend = NA,
+                           inherit.aes = TRUE) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomBoxJitter,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      outlier.colour = outlier.color %||% outlier.colour,
+      outlier.fill = outlier.fill,
+      outlier.shape = outlier.shape,
+      outlier.size = outlier.size,
+      outlier.stroke = outlier.stroke,
+      outlier.alpha = outlier.alpha,
+      jitter.colour = jitter.color %||% jitter.colour,
+      jitter.fill = jitter.fill,
+      jitter.shape = jitter.shape,
+      jitter.size = jitter.size,
+      jitter.stroke = jitter.stroke,
+      jitter.alpha = jitter.alpha,
+      jitter.width = jitter.width,
+      jitter.height = jitter.height,
+      jitter.seed = jitter.seed,
+      notch = notch,
+      notchwidth = notchwidth,
+      varwidth = varwidth,
+      errorbar.draw = errorbar.draw,
+      errorbar.length = errorbar.length,
+      na.rm = na.rm,
+      ...
+    )
+  )
+}
+
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto GeomBoxplot aes
 #' @importFrom grid grobTree
-#' 
 #' @export
 GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
   default_aes = aes(weight = 1, colour = "grey20", fill = "white", size = 0.5,
@@ -135,92 +227,3 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
     ))
   }
 )
-
-
-#' A hybrid boxplot. H
-
-#' Half boxplot, half scatterplot with jitter.
-#' @importFrom ggplot2 layer
-#' @inheritParams ggplot2::geom_boxplot
-#' @param jitter.colour,jitter.color,jitter.fill,jitter.shape,jitter.size,jitter.stroke,jitter.alpha
-#'   Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.
-#' @param jitter.width Width passed to position_jitter. Defaults to half the width of the boxplot.
-#' @param jitter.height Height passed to position_jitter. Defaults to 40 percent of the resolution.
-#' @param jitter.seed Seed passed to position_jitter for reproducible jittering.
-#' @param errorbar.draw Draw horizontal whiskers at the top and bottom (the IQR). Defaults to `FALSE`.
-#' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot.
-#' 
-#' @export
-#' 
-#' @example
-#' set.seed(221)
-#' df <- data.frame(score = rgamma(150, 4, 1), gender = sample(c("M", "F"), 150, replace = TRUE), 
-#'                  genotype = factor(sample(1:3, 150, replace = TRUE)))
-#' ggplot(df) + ggparl::geom_boxjitter(aes(x = gender, y = score, fill = genotype), 
-#'                                     jitter.shape = 21, jitter.color = NA, 
-#'                                     jitter.height = 0, jitter.width = 0.04,
-#'                                     outlier.color = NA) +
-#'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
-#'   theme_minimal()
-geom_boxjitter <- function(mapping = NULL, data = NULL,
-                           stat = "BoxJitter", position = "dodge",
-                           ...,
-                           outlier.colour = NULL,
-                           outlier.color = NULL,
-                           outlier.fill = NULL,
-                           outlier.shape = 19,
-                           outlier.size = 1.5,
-                           outlier.stroke = 0.5,
-                           outlier.alpha = NULL,
-                           jitter.colour = NULL,
-                           jitter.color = NULL,
-                           jitter.fill = NULL,
-                           jitter.shape = 19,
-                           jitter.size = 1.5,
-                           jitter.stroke = 0.5,
-                           jitter.alpha = NULL,
-                           jitter.width = NULL,
-                           jitter.height = NULL,
-                           jitter.seed = NULL,
-                           notch = FALSE,
-                           notchwidth = 0.5,
-                           varwidth = FALSE,
-                           errorbar.draw = FALSE,
-                           errorbar.length = 0.5,
-                           na.rm = FALSE,
-                           show.legend = NA,
-                           inherit.aes = TRUE) {
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomBoxJitter,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(
-      outlier.colour = outlier.color %||% outlier.colour,
-      outlier.fill = outlier.fill,
-      outlier.shape = outlier.shape,
-      outlier.size = outlier.size,
-      outlier.stroke = outlier.stroke,
-      outlier.alpha = outlier.alpha,
-      jitter.colour = jitter.color %||% jitter.colour,
-      jitter.fill = jitter.fill,
-      jitter.shape = jitter.shape,
-      jitter.size = jitter.size,
-      jitter.stroke = jitter.stroke,
-      jitter.alpha = jitter.alpha,
-      jitter.width = jitter.width,
-      jitter.height = jitter.height,
-      jitter.seed = jitter.seed,
-      notch = notch,
-      notchwidth = notchwidth,
-      varwidth = varwidth,
-      errorbar.draw = errorbar.draw,
-      errorbar.length = errorbar.length,
-      na.rm = na.rm,
-      ...
-    )
-  )
-}

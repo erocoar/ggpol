@@ -1,4 +1,8 @@
+#' @rdname ggpol-extensions
 #' @importFrom ggplot2 ggproto Stat StatBoxplot
+#' @format NULL
+#' @usage NULL
+#' @export
 StatBoxJitter <- ggproto("StatBoxJitter", Stat,
    required_aes = c("x", "y"),
    non_missing_aes = "weight",

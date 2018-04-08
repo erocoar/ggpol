@@ -17,7 +17,7 @@ stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export

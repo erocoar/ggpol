@@ -3,8 +3,9 @@
 #' `facet_share` uses [facet_wrap()] to build two panels with a shared axis.
 #'
 #' @inheritParams ggplot2::facet_wrap
-#' @inheritParams facet_grid
-#' @param reverse_num Used when passing on flipped data (times -1) for the second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
+#' @export
+#' @param reverse_num Used when passing on flipped data (times -1) for the 
+#' second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
 #' @export
 #' @examples
 #' df <- data.frame(age = sample(1:20, 1000, replace = T), gender = c("M","F"))
@@ -19,24 +20,23 @@
 #'   coord_flip() +
 #'   labs(x = "Age", y = "Count") + 
 #'   theme(legend.position = "bottom")
-
+#' 
 #' p
 #' 
-#' 
 #' # When setting direction to vertical, and if we want to mirror the second panel,
-#' # we must multiply the second factor by -1. 
-#' # levels(factor(gender))[2] is M. 
-#' df_v <- df_v %>% 
+#' # we must multiply the second factor by -1.
+#' # And levels(factor(gender))[2] is M. 
+#' df_v <- df %>% 
 #'   count(age, gender) %>% 
 #'   mutate(n = ifelse(gender == "M", n*-1, n)) %>% 
 #'   as.data.frame()
 #'   
-#' p <- ggplot(df, aes(x = as.factor(age), y = n, fill = gender)) + 
+#' p <- ggplot(df_v, aes(x = as.factor(age), y = n, fill = gender)) + 
 #'   geom_bar(stat = "identity") +   
 #'   facet_share(~gender, dir = "v", reverse_num = TRUE, scales = "free", strip.position = "left") +
-#'   labs(x = "Age", y = "Count) + 
+#'   labs(x = "Age", y = "Count") + 
 #'   theme(legend.position = "left")
-
+#' p
 facet_share <- function(facets, scales = "fixed",
                         reverse_num = FALSE,
                         shrink = TRUE, labeller = "label_value", as.table = TRUE,
@@ -65,10 +65,11 @@ facet_share <- function(facets, scales = "fixed",
   )
 }
 
-
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom grid convertWidth grobWidth convertHeight grobHeight
+#' @importFrom gtable gtable_matrix gtable_add_col_space gtable_add_row_space gtable_add_grob
 #' @export
 FacetShare <- ggproto("FacetShare", FacetWrap,
   shrink = TRUE,
@@ -146,7 +147,7 @@ FacetShare <- ggproto("FacetShare", FacetWrap,
       list(NULL, axes$y$left[[1]]$children$axis$grobs[[lab_idx]], NULL)),
       heights = unit(1, "npc"), clip = "off")
     
-    shared_axis <- gtable::gtable_add_col_space(shared_axis, panel_spacing*1)
+    shared_axis <- gtable::gtable_add_col_space(shared_axis, panel_spacing * 1)
     
   } else {
     tick_idx <- grep("axis.ticks",

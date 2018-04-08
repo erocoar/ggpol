@@ -1,15 +1,15 @@
-#' Timeseries highlight
+#' Timeseries highlighting
 #'
-#' This is a version of `GeomRect` that defaults to spanning the entirety of the y-axis.
+#' This is a version of [ggplot2::geom_rect()] that defaults to spanning the entirety of the y-axis.
 #' 
 #' @section Aesthetics:
 #' geom_tshighlight understands the following aesthetics (required aesthetics are in bold):
-#' - xmin
-#' - xmax 
+#' - **xmin**
+#' - **xmax**
 #' - fill
 #' - color
 #' 
-#' @inheritParams ggplot2::geomRect
+#' @inheritParams ggplot2::geom_rect
 #'
 #' @export
 #' 
@@ -35,11 +35,11 @@ geom_tshighlight <- function(mapping = NULL, data = NULL,
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomTshighlight <- ggproto("GeomRect", GeomRect,
+GeomTshighlight <- ggproto("GeomRect", ggplot2::GeomRect,
   default_aes = aes(colour = NA, fill = "grey35", 
                     size = 0.5, linetype = 1, alpha = NA),
                     
@@ -52,7 +52,6 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
   },
  
   draw_panel = function(self, data, panel_params, coord) {
-    print(data)
     if (!coord$is_linear()) {
       aesthetics <- setdiff(
         names(data), c("x", "y", "xmin", "xmax", "ymin", "ymax")

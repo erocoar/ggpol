@@ -10,7 +10,7 @@
 #' - fill 
 #' - color
 #' 
-#' @inheritParams ggplot2::geomPolygon
+#' @inheritParams ggplot2::geom_polygon
 #' @param r0 Inner radius, defaults to 1.5.
 #' @param r1 Outer radius, defaults to 3.
 #' @param n Number of passed to `StatCircle`, defaults to 360.
@@ -42,11 +42,11 @@ geom_parliament <- function(mapping = NULL, data = NULL, stat = "parliament",
         params = list(na.rm = na.rm, n = n, r0 = r0, r1 = r1, ...))
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomParliament <- ggproto("GeomParliament", GeomPolygon,
+GeomParliament <- ggproto("GeomParliament", ggplot2::GeomPolygon,
                           default_aes = list(colour = "black", fill = NA, 
                                              size = 0.5, linetype = 1, alpha = NA)
 )

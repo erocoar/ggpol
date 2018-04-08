@@ -1,6 +1,6 @@
 #' Circles with pre-defined radii.
 #' 
-#' Similar to `geom_point()`, but allows for full control of the size.
+#' Similar to `[geom_point()]`, but allows for full control of the size.
 #' 
 #' @section Aesthetics:
 #' geom_circle understands the following aesthetics (required aesthetics are in bold):
@@ -34,10 +34,10 @@ geom_circle <- function(mapping = NULL, data = NULL, stat = "circle",
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomCircle <- ggproto("GeomCircle", GeomPolygon,
+GeomCircle <- ggproto("GeomCircle", ggplot2::GeomPolygon,
   default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
 )

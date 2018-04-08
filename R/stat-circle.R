@@ -16,7 +16,7 @@ stat_circle <- function(mapping = NULL, data = NULL, geom = "circle",
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export

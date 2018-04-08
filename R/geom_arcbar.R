@@ -45,10 +45,10 @@ geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
         params = list(na.rm = na.rm, n = n, sep = sep, ...))
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomArcBar <- ggproto("GeomArcBar", GeomPolygon,
+GeomArcBar <- ggproto("GeomArcBar", ggplot2::GeomPolygon,
                       default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
 )
