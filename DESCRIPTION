@@ -8,9 +8,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
+	ggplot2 (>= 2.2.0),
 	R (>= 3.4.0)
 Imports: 
-	ggplot2 (>= 2.2.0),
 	grid,
 	gtable,
 	grDevices
