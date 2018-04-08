@@ -1,5 +1,5 @@
 Package: ggpol
-Title: Visualizing social science data with ggplot2
+Title: Visualizing social science data with ggplot2.
 Version: 0.0.1
 Authors@R: person("Frederik", "Tiedemann", email = "fj.tiedemann@googlemail.com", role = c("aut", "cre"))
 Description: This package implements parliament charts and several other useful visualizations.
