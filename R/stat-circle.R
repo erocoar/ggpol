@@ -1,3 +1,25 @@
+#' @param n number of points calculated for the circle polygon, defaults to 360.
+#' @export
+#' @rdname geom_circle
+stat_circle <- function(mapping = NULL, data = NULL, geom = "circle",
+                        position = "identity", n = 360, na.rm = FALSE,
+                        show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    stat = StatCircle,
+    mapping = mapping,
+    data = data,
+    geom = geom,
+    position = position,
+    inherit.aes = inherit.aes,
+    show.legend = show.legend,
+    params = list(n = n, na.rm = na.rm, ...)
+  )
+}
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 StatCircle <- ggproto("StatCircle", Stat, 
   required_aes = c("x", "y", "r"),
   
@@ -19,18 +41,3 @@ StatCircle <- ggproto("StatCircle", Stat,
     df
     }
 )
-
-stat_circle <- function(mapping = NULL, data = NULL, geom = "circle",
-                        position = "identity", n = 360, na.rm = FALSE,
-                        show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    stat = StatCircle,
-    mapping = mapping,
-    data = data,
-    geom = geom,
-    position = position,
-    inherit.aes = inherit.aes,
-    show.legend = show.legend,
-    params = list(n = n, na.rm = na.rm, ...)
-  )
-}

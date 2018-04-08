@@ -1,3 +1,33 @@
+#' @param r0 inner radius of the arc. Defaults to 1.5
+#' @param r1 outer radius of the arc. Defaults to 3
+#' @param n number of points used to calculate individual circle polygons. Defaults to 360.
+#' @inheritParams stat_identity
+#' @section Computed variables:
+#' \describe{
+#'   \item{x}{x-coordinates of individual MPs}
+#'   \item{y}{y-coordinates of individual MPs}
+#' }
+#' @export
+#' @rdname geom_parliament
+stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
+                             position = "identity", r0 = 1.5, r1 = 3, n = 360, 
+                             na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    stat = StatParliament,
+    mapping = mapping,
+    data = data, 
+    geom = geom,
+    position = position, 
+    inherit.aes = inherit.aes,
+    show.legend = show.legend,
+    params = list(na.rm = na.rm, n = n, r0 = r0, r1 = r1, ...)
+  )
+}
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 StatParliament <- ggproto("StatParliament", Stat,
   required_aes = c("seats"),
   
@@ -62,18 +92,3 @@ StatParliament <- ggproto("StatParliament", Stat,
     df
   }
 )
-
-stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
-                          position = "identity", r0 = 1.5, r1 = 3, n = 360, 
-                          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    stat = StatParliament,
-    mapping = mapping,
-    data = data, 
-    geom = geom,
-    position = position, 
-    inherit.aes = inherit.aes,
-    show.legend = show.legend,
-    params = list(na.rm = na.rm, n = n, r0 = r0, r1 = r1, ...)
-  )
-}

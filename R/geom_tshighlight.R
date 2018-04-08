@@ -1,6 +1,6 @@
 #' Timeseries highlight
 #'
-#' This is a version of `GeomRect` that defaults to spanning the entire y-axis.
+#' This is a version of `GeomRect` that defaults to spanning the entirety of the y-axis.
 #' 
 #' @section Aesthetics:
 #' geom_tshighlight understands the following aesthetics (required aesthetics are in bold):
@@ -10,13 +10,35 @@
 #' - color
 #' 
 #' @inheritParams ggplot2::geomRect
-
-#' 
+#'
 #' @export
 #' 
 #' @examples 
-#' ggplot() + geom_point(aes(x=1, y=17)) + geom_tshighlight(aes(xmin = 2, xmax= 5), fill="red")
+#' ggplot(economics, aes(x = date, y = unemploy)) + 
+#'   geom_line() +
+#'   geom_tshighlight(aes(xmin = as.Date("01/01/1990", format = "%d/%m/%Y"), 
+#'                        xmax = as.Date("01/01/2000", format = "%d/%m/%Y")),
+#'                    alpha = 0.01)
+geom_tshighlight <- function(mapping = NULL, data = NULL, 
+                             stat = "identity", position = "identity",
+                             ..., na.rm = FALSE, show.legend = NA, 
+                             inherit.aes = TRUE) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomTshighlight,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
 
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 GeomTshighlight <- ggproto("GeomRect", GeomRect,
   default_aes = aes(colour = NA, fill = "grey35", 
                     size = 0.5, linetype = 1, alpha = NA),
@@ -30,7 +52,7 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
   },
  
   draw_panel = function(self, data, panel_params, coord) {
-
+    print(data)
     if (!coord$is_linear()) {
       aesthetics <- setdiff(
         names(data), c("x", "y", "xmin", "xmax", "ymin", "ymax")
@@ -64,19 +86,3 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
     }
   }
 )
-
-geom_tshighlight <- function(mapping = NULL, data = NULL, 
-                             stat = "identity", position = "identity",
-                             ..., na.rm = FALSE, show.legend = NA, 
-                             inherit.aes = TRUE) {
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomTshighlight,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}

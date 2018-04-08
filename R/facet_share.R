@@ -1,3 +1,42 @@
+#' A shared axis for two panels
+#'
+#' `facet_share` uses [facet_wrap()] to build two panels with a shared axis.
+#'
+#' @inheritParams ggplot2::facet_wrap
+#' @inheritParams facet_grid
+#' @param reverse_num Used when passing on flipped data (times -1) for the second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
+#' @export
+#' @examples
+#' df <- data.frame(age = sample(1:20, 1000, replace = T), gender = c("M","F"))
+#' df_h <- df %>% 
+#'   count(age, gender) %>% 
+#'   mutate(n = ifelse(gender == "F", n * -1, n)) %>% 
+#'   as.data.frame()
+#' 
+#' p <- ggplot(df_h, aes(x = factor(age), y = n, fill = gender)) + 
+#'   geom_bar(stat = "identity") +
+#'   facet_share(~gender, dir = "h", scales = "free", reverse_num = TRUE) + 
+#'   coord_flip() +
+#'   labs(x = "Age", y = "Count") + 
+#'   theme(legend.position = "bottom")
+
+#' p
+#' 
+#' 
+#' # When setting direction to vertical, and if we want to mirror the second panel,
+#' # we must multiply the second factor by -1. 
+#' # levels(factor(gender))[2] is M. 
+#' df_v <- df_v %>% 
+#'   count(age, gender) %>% 
+#'   mutate(n = ifelse(gender == "M", n*-1, n)) %>% 
+#'   as.data.frame()
+#'   
+#' p <- ggplot(df, aes(x = as.factor(age), y = n, fill = gender)) + 
+#'   geom_bar(stat = "identity") +   
+#'   facet_share(~gender, dir = "v", reverse_num = TRUE, scales = "free", strip.position = "left") +
+#'   labs(x = "Age", y = "Count) + 
+#'   theme(legend.position = "left")
+
 facet_share <- function(facets, scales = "fixed",
                         reverse_num = FALSE,
                         shrink = TRUE, labeller = "label_value", as.table = TRUE,
@@ -26,6 +65,11 @@ facet_share <- function(facets, scales = "fixed",
   )
 }
 
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 FacetShare <- ggproto("FacetShare", FacetWrap,
   shrink = TRUE,
   
@@ -42,21 +86,21 @@ FacetShare <- ggproto("FacetShare", FacetWrap,
   }
   
   panel_table <- FacetWrap$draw_panels(panels, layout, x_scales, y_scales, ranges, coord, data, theme, params)
-  
   if (params$reverse_num) {
     if (params$dir == "h") {
       inds <- grep("axis-b|axis-t", panel_table$layout$name)
+    } else {
+      inds <- grep("axis-l|axis-r", panel_table$layout$name)
     }
-    for (ind in inds[c(1, 3)]) {
+    for (ind in inds[c(1, 3) + (params$dir == "v")]) {
       if (!"zeroGrob" %in% class(panel_table$grobs[[ind]])) {
-        panel_table$grobs[[ind]]$children$axis$grobs[[2]]$children[[1]]$label <-
+        panel_table$grobs[[ind]]$children$axis$grobs[[1 + (params$dir == "h")]]$children[[1]]$label <-
           as.character(
-            as.numeric(panel_table$grobs[[ind]]$children$axis$grobs[[2]]$children[[1]]$label)*-1)
+            as.numeric(panel_table$grobs[[ind]]$children$axis$grobs[[1 + (params$dir == "h")]]$children[[1]]$label)*-1)
       }
     }
   }
   
-  pp <<- panel_table
   theme$panel.spacing.x <- panel_spacing
   if (params$dir == "h") {
     inds <- grep("axis-l|axis-r", panel_table$layout$name)
@@ -110,7 +154,7 @@ FacetShare <- ggproto("FacetShare", FacetWrap,
     lab_idx <- (tick_idx == 1) + 1
     
     labs <- axes$x$bottom[[1]]$children$axis$grobs[[lab_idx]]
-    labs$children[[1]]$vjust <- 0.5
+    labs$children[[1]]$vjust <- 0.4
     labs$children[[1]]$y <- unit(0.5, "npc")
     
     ax_tick_b <- ax_tick_t <- axes$x$bottom[[1]]$children$axis$grobs[[tick_idx]]
@@ -138,36 +182,21 @@ FacetShare <- ggproto("FacetShare", FacetWrap,
   # add shared axis
   if (params$dir == "h") {
     sa_inds <- grep("null", as.character(panel_table$widths))
-    panel_table$widths[sum(sa_inds)/2] <- convertWidth(sum(shared_axis$widths), "cm")
+    panel_table$widths[sum(sa_inds) / 2] <- convertWidth(sum(shared_axis$widths), "cm")
     panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = 4, t = 3, clip = "on")
   } else {
     sa_inds <- grep("null", as.character(panel_table$heights))
-    if (sum(sa_inds)/2 - as.integer(sum(sa_inds)/2) != 0) {
-      panel_table$heights[as.integer(sum(sa_inds)/2)] <- convertHeight(sum(shared_axis$heights), "cm") 
-      panel_table$heights[as.integer(sum(sa_inds)/2)+1] <- convertHeight(sum(shared_axis$heights), "cm") 
-      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = 2, t = 5, b = 6, clip = "on")
+    if (sum(sa_inds) / 2 - as.integer(sum(sa_inds) / 2) != 0) {
+      panel_table$heights[as.integer(sum(sa_inds) / 2)] <- convertHeight(sum(shared_axis$heights), "cm") 
+      panel_table$heights[as.integer(sum(sa_inds) / 2) + 1] <- convertHeight(sum(shared_axis$heights), "cm") 
+      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = panel_table$layout$l[2], 
+                                             t = as.integer(sum(sa_inds) / 2) + 1, b = 6, clip = "on")
     }
     else {
-      panel_table$heights[sum(sa_inds)/2] <- convertHeight(sum(shared_axis$heights), "cm") + 2 * panel_spacing
-      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = 3, t = sum(sa_inds)/2, clip = "on")
+      panel_table$heights[sum(sa_inds) / 2] <- convertHeight(sum(shared_axis$heights), "cm") + 2 * panel_spacing
+      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = panel_table$layout$l[1], t = (sum(sa_inds) / 2), clip = "on")
     }
   }
-  ss <<- shared_axis
-  pp2 <<- panel_table
+
   panel_table
   })
-
-
-test <- data.frame(v=sample(1:20,1000,replace=T), g=c('M','F'))
-test %<>% count(v, g) %>% mutate(n = ifelse(g=="F", n*-1, n)) %>% as.data.frame()
-p <- ggplot(test, aes(x=as.factor(v), y = n, fill=g)) + geom_bar(stat="identity") +
-  facet_share(~g, dir = "h", scales = "free", reverse_num = TRUE)  + theme(legend.position = "None") + coord_flip() +
-  xlab("") + ylab("")
-
-p
-
-
-test <- data.frame(v=sample(1:20,1000,replace=T), g=c('M','F'))
-test %<>% count(v, g) %>% mutate(n = ifelse(g=="M", n*-1, n)) %>% as.data.frame()
-p <- ggplot(test, aes(x = as.factor(v), y = n, fill = g)) + geom_bar(stat="identity") +
-  facet_share(~g, dir = "v", reverse_num = TRUE, scales = "free", strip.position = "left")  + theme(legend.position = "None") 

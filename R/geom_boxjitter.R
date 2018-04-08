@@ -3,6 +3,7 @@
 #' @usage NULL
 #' @importFrom ggplot2 ggproto GeomBoxplot aes
 #' @importFrom grid grobTree
+#' 
 #' @export
 GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
   default_aes = aes(weight = 1, colour = "grey20", fill = "white", size = 0.5,
@@ -150,6 +151,17 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
 #' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot.
 #' 
 #' @export
+#' 
+#' @example
+#' set.seed(221)
+#' df <- data.frame(score = rgamma(150, 4, 1), gender = sample(c("M", "F"), 150, replace = TRUE), 
+#'                  genotype = factor(sample(1:3, 150, replace = TRUE)))
+#' ggplot(df) + ggparl::geom_boxjitter(aes(x = gender, y = score, fill = genotype), 
+#'                                     jitter.shape = 21, jitter.color = NA, 
+#'                                     jitter.height = 0, jitter.width = 0.04,
+#'                                     outlier.color = NA) +
+#'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
+#'   theme_minimal()
 geom_boxjitter <- function(mapping = NULL, data = NULL,
                            stat = "BoxJitter", position = "dodge",
                            ...,

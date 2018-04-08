@@ -20,21 +20,18 @@
 #' @param sep Separation between the different shares, as a total proportion of pi.
 #' @export
 #' 
-#' @examples
-#' # Generate Data
-#' # Generate Data
+#' @examples 
 #' bt <- data.frame(
-#'         parties = c("CDU", "CSU", "SPD", "AfD", "FDP", "Linke", "Gruene", "Fraktionslos"),
-#'         seats   = c(200, 46, 153, 92, 80, 69, 67, 2),
-#'         colors  = c("black", "blue", "red", "lightblue", "yellow","purple", "green", "grey"),
-#'         stringsAsFactors = FALSE)
-#' ggplot(bt) + geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + coord_fixed()
-
-GeomArcBar <- ggproto("GeomArcBar", GeomPolygon,
-                      default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
-)
-
-
+#'   parties = factor(c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos"),
+#'                    levels = c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos")),
+#'   seats   = c(200, 46, 92, 80, 153, 69, 67, 2),
+#'   colors  = c("black", "blue", "lightblue", "yellow", "red","purple", "green", "grey"),
+#'   stringsAsFactors = FALSE)
+#'   
+#' ggplot(bt) + geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + 
+#'   scale_fill_manual(values = bt$colors) +
+#'   coord_fixed() +
+#'   theme_void()
 geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
                          position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
                          show.legend = NA, inherit.aes = TRUE, ...) {
@@ -47,3 +44,11 @@ geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
         inherit.aes = inherit.aes,
         params = list(na.rm = na.rm, n = n, sep = sep, ...))
 }
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
+GeomArcBar <- ggproto("GeomArcBar", GeomPolygon,
+                      default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
+)

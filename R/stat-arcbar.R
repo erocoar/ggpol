@@ -1,3 +1,26 @@
+#' @param n number of points used to calculate the circle polygon. Defaults to 360.
+#' @param sep Separation between the individual arc components as a total proportion of pi (i.e., the entire arc)
+#' @export
+#' @rdname geom_arc_bar
+stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
+                          position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
+                          show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    stat = StatArcBar,
+    mapping = mapping,
+    data = data, 
+    geom = geom,
+    position = position, 
+    inherit.aes = inherit.aes,
+    show.legend = show.legend,
+    params = list(na.rm = na.rm, n = n, sep = sep, ...)
+  )
+}
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 StatArcBar <- ggproto("StatArcBar", Stat,
   required_aes = c("shares", "r0", "r1"),
   
@@ -40,23 +63,8 @@ StatArcBar <- ggproto("StatArcBar", Stat,
     
     to_add <- setdiff(colnames(data), colnames(df))
     for (col_ in to_add){
-      df[, col_] <- rep(data[, col_], rle(df$group)$lengths)
+      df[, col_] <- rev(rep(data[, col_], rle(df$group)$lengths))
     }
     df
   }
 )
-
-stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
-                          position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
-                          show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    stat = StatArcBar,
-    mapping = mapping,
-    data = data, 
-    geom = geom,
-    position = position, 
-    inherit.aes = inherit.aes,
-    show.legend = show.legend,
-    params = list(na.rm = na.rm, n = n, sep = sep, ...)
-  )
-}

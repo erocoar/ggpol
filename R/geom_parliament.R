@@ -11,26 +11,24 @@
 #' - color
 #' 
 #' @inheritParams ggplot2::geomPolygon
-#' @param r0 Inner radius
-#' @param r1 Outer radius
-#' @param n Number of passed to `StatCircle`
+#' @param r0 Inner radius, defaults to 1.5.
+#' @param r1 Outer radius, defaults to 3.
+#' @param n Number of passed to `StatCircle`, defaults to 360.
 #' 
 #' @export
 #' 
 #' @examples 
-#' # Generate Data
 #' bt <- data.frame(
-#'         parties = c("CDU", "CSU", "SPD", "AfD", "FDP", "Linke", "Gruene", "Fraktionslos"),
-#'         seats   = c(200, 46, 153, 92, 80, 69, 67, 2),
-#'         colors  = c("black", "blue", "red", "lightblue", "yellow","purple", "green", "grey"),
-#'         stringsAsFactors = FALSE)
-#' ggplot(bt) + geom_parliament(aes(seats = seats, fill = parties, color = parties)) + coord_fixed() + theme_void()
-
-GeomParliament <- ggproto("GeomParliament", GeomPolygon,
-                          default_aes = list(colour = "black", fill = NA, 
-                                             size = 0.5, linetype = 1, alpha = NA)
-)
-
+#'   parties = factor(c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos"),
+#'                    levels = c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos")),
+#'   seats   = c(200, 46, 92, 80, 153, 69, 67, 2),
+#'   colors  = c("black", "blue", "lightblue", "yellow", "red","purple", "green", "grey"),
+#'   stringsAsFactors = FALSE)
+#' 
+#' ggplot(bt) + geom_parliament(aes(seats = seats, fill = parties), color = "black") + 
+#'   scale_fill_manual(values = bt$colors, labels = bt$parties) +
+#'   coord_fixed() + 
+#'   theme_void()
 geom_parliament <- function(mapping = NULL, data = NULL, stat = "parliament",
                             position = "identity", r0 = 1.5, r1 = 3, n = 360, 
                             na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
@@ -43,3 +41,12 @@ geom_parliament <- function(mapping = NULL, data = NULL, stat = "parliament",
         inherit.aes = inherit.aes,
         params = list(na.rm = na.rm, n = n, r0 = r0, r1 = r1, ...))
 }
+
+#' @rdname ggplot2-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
+GeomParliament <- ggproto("GeomParliament", GeomPolygon,
+                          default_aes = list(colour = "black", fill = NA, 
+                                             size = 0.5, linetype = 1, alpha = NA)
+)
