@@ -21,7 +21,6 @@
 #' @export
 #' 
 #' @examples
-#' library(dplyr)
 #' bt <- data.frame(
 #'   parties = factor(c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos"),
 #'                    levels = c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos")),
