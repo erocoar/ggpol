@@ -41,6 +41,7 @@ geom_tshighlight <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @usage NULL
 #' @importFrom ggplot2 ggproto GeomRect GeomPolygon
+#' @importFrom grid rectGrob
 #' @export
 GeomTshighlight <- ggproto("GeomRect", GeomRect,
   default_aes = aes(colour = NA, fill = "grey35", 
