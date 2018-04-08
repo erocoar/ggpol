@@ -26,4 +26,8 @@ Collate:
 	'geom_parliament.R'
 	'geom_tshighlight.R'
 	'ggproto-classes.R'
+	'stat-arcbar.R'
+	'stat-boxjitter.R'
+	'stat-circle.R'
+	'stat-parliament.R'
 	'utilities.R'
