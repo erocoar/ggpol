@@ -37,7 +37,8 @@
 #' 
 #' p <- ggplot(df_v, aes(x = as.factor(age), y = count, fill = gender)) + 
 #'   geom_bar(stat = "identity") +   
-#'   facet_share(~gender, dir = "v", reverse_num = TRUE, scales = "free", strip.position = "left") +
+#'   facet_share(~gender, dir = "v", reverse_num = TRUE, 
+#'               scales = "free", strip.position = "left") +
 #'   labs(x = "Age", y = "Count") + 
 #'   theme(legend.position = "left")
 #' p
