@@ -8,6 +8,7 @@
 #' second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
 #' @export
 #' @examples
+#' library(dplyr)
 #' df <- data.frame(age = sample(1:20, 1000, replace = TRUE), gender = c("M","F"))
 #' df_h <- df %>% 
 #'   count(age, gender) %>% 
