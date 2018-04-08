@@ -20,7 +20,8 @@
 #' @param sep Separation between the different shares, as a total proportion of pi.
 #' @export
 #' 
-#' @examples 
+#' @examples
+#' library(dplyr)
 #' bt <- data.frame(
 #'   parties = factor(c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos"),
 #'                    levels = c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos")),

@@ -84,6 +84,7 @@ geom_arc_bar understands the following aesthetics (required aesthetics are in bo
 }
 
 \examples{
+library(dplyr)
 bt <- data.frame(
   parties = factor(c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos"),
                    levels = c("CDU", "CSU", "AfD", "FDP", "SPD", "Linke", "Gruene", "Fraktionslos")),
