@@ -15,6 +15,9 @@
 #'   
 #' @inheritParams ggplot2::geom_polygon
 #' @param n The number of points calculated for the circle polygon, defaults to 360.
+#' 
+#' @importFrom ggplot2 layer
+#' 
 #' @export
 #' 
 #' @examples 
@@ -37,7 +40,8 @@ geom_circle <- function(mapping = NULL, data = NULL, stat = "circle",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto GeomPolygon
 #' @export
-GeomCircle <- ggproto("GeomCircle", ggplot2::GeomPolygon,
+GeomCircle <- ggproto("GeomCircle", GeomPolygon,
   default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
 )

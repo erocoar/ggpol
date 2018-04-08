@@ -1,5 +1,6 @@
 #' @param n number of points used to calculate the circle polygon. Defaults to 360.
 #' @param sep Separation between the individual arc components as a total proportion of pi (i.e., the entire arc)
+#' @importFrom ggplot2 layer
 #' @export
 #' @rdname geom_arc_bar
 stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
@@ -20,6 +21,7 @@ stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto Stat
 #' @export
 StatArcBar <- ggproto("StatArcBar", Stat,
   required_aes = c("shares", "r0", "r1"),

@@ -1,4 +1,5 @@
 #' @param n number of points calculated for the circle polygon, defaults to 360.
+#' @importFrom ggplot2 layer
 #' @export
 #' @rdname geom_circle
 stat_circle <- function(mapping = NULL, data = NULL, geom = "circle",
@@ -19,6 +20,7 @@ stat_circle <- function(mapping = NULL, data = NULL, geom = "circle",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto Stat
 #' @export
 StatCircle <- ggproto("StatCircle", Stat, 
   required_aes = c("x", "y", "r"),

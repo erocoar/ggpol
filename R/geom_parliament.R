@@ -15,6 +15,8 @@
 #' @param r1 Outer radius, defaults to 3.
 #' @param n Number of passed to `StatCircle`, defaults to 360.
 #' 
+#' @importFrom ggplot2 layer
+#' 
 #' @export
 #' 
 #' @examples 
@@ -45,8 +47,9 @@ geom_parliament <- function(mapping = NULL, data = NULL, stat = "parliament",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto GeomPolygon
 #' @export
-GeomParliament <- ggproto("GeomParliament", ggplot2::GeomPolygon,
+GeomParliament <- ggproto("GeomParliament", GeomPolygon,
                           default_aes = list(colour = "black", fill = NA, 
                                              size = 0.5, linetype = 1, alpha = NA)
 )

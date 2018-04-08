@@ -10,6 +10,8 @@
 #' - color
 #' 
 #' @inheritParams ggplot2::geom_rect
+#' 
+#' @importFrom ggplot2 layer
 #'
 #' @export
 #' 
@@ -38,8 +40,10 @@ geom_tshighlight <- function(mapping = NULL, data = NULL,
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto GeomRect GeomPolygon
+#' @importFrom plyr alply
 #' @export
-GeomTshighlight <- ggproto("GeomRect", ggplot2::GeomRect,
+GeomTshighlight <- ggproto("GeomRect", GeomRect,
   default_aes = aes(colour = NA, fill = "grey35", 
                     size = 0.5, linetype = 1, alpha = NA),
                     
@@ -58,7 +62,7 @@ GeomTshighlight <- ggproto("GeomRect", ggplot2::GeomRect,
       )
       
       polys <- plyr::alply(data, 1, function(row) {
-        poly <- rect_to_poly(row$xmin, row$xmax, row$ymin, row$ymax)
+        poly <- ggplot2:::rect_to_poly(row$xmin, row$xmax, row$ymin, row$ymax)
         aes <- as.data.frame(row[aesthetics],
                              stringsAsFactors = FALSE)[rep(1,5), ]
         

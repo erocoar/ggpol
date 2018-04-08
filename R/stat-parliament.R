@@ -7,6 +7,9 @@
 #'   \item{x}{x coordinates of individual MPs}
 #'   \item{y}{y coordinates of individual MPs}
 #' }
+#' 
+#' @importFrom ggplot2 layer
+#' 
 #' @export
 #' @rdname geom_parliament
 stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
@@ -27,6 +30,7 @@ stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 ggproto Stat
 #' @export
 StatParliament <- ggproto("StatParliament", Stat,
   required_aes = c("seats"),
