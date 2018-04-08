@@ -59,6 +59,7 @@ either of the four sides by setting \code{strip.position = c("top",
 `facet_share` uses [facet_wrap()] to build two panels with a shared axis.
 }
 \examples{
+library(dplyr)
 df <- data.frame(age = sample(1:20, 1000, replace = TRUE), gender = c("M","F"))
 df_h <- df \%>\% 
   count(age, gender) \%>\% 
