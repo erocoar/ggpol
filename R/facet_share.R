@@ -71,7 +71,7 @@ facet_share <- function(facets, scales = "fixed",
 #' @importFrom grid convertWidth grobWidth convertHeight grobHeight
 #' @importFrom gtable gtable_matrix gtable_add_col_space gtable_add_row_space gtable_add_grob
 #' @export
-FacetShare <- ggproto("FacetShare", FacetWrap,
+FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
   shrink = TRUE,
   
   draw_panels = function(panels, layout, x_scales, y_scales, ranges, coord, data, theme, params) {
@@ -86,7 +86,7 @@ FacetShare <- ggproto("FacetShare", FacetWrap,
     theme$panel.spacing.y <- unit(0, "npc")
   }
   
-  panel_table <- FacetWrap$draw_panels(panels, layout, x_scales, y_scales, ranges, coord, data, theme, params)
+  panel_table <- ggplot2::FacetWrap$draw_panels(panels, layout, x_scales, y_scales, ranges, coord, data, theme, params)
   if (params$reverse_num) {
     if (params$dir == "h") {
       inds <- grep("axis-b|axis-t", panel_table$layout$name)
