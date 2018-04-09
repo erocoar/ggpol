@@ -27,7 +27,7 @@
 #' ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
 #'                             jitter.shape = 21, jitter.color = NA, 
 #'                             jitter.height = 0, jitter.width = 0.04,
-#'                             outlier.color = NA) +
+#'                             outlier.color = NA, errobar.draw = TRUE) +
 #'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
 #'   theme_minimal()
 geom_boxjitter <- function(mapping = NULL, data = NULL,
