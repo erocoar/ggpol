@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 )
 
 library(ggplot2)
+library(ggpol)
+```
 ```
 
 ## GeomArcbar
@@ -138,7 +140,7 @@ ggplot(df) +
 
 The horizontal mirroring also requires using `coord_flip()`. 
 
-Naturally, the shared axis is well suited for population pyramids. 
+Naturally, the shared axis is well suited for population pyramids.
 
 ```{r}
 df <- data.frame(sex = sample(c("M", "F"), 1000, replace = TRUE),
