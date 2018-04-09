@@ -9,7 +9,8 @@
 #' @export
 stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
                              position = "identity", r0 = 1.5, r1 = 3, n = 360, 
-                             na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+                             na.rm = FALSE, show.legend = NA, 
+                             inherit.aes = TRUE, ...) {
   layer(
     stat = StatParliament,
     mapping = mapping,
@@ -35,7 +36,7 @@ StatParliament <- ggproto("StatParliament", Stat,
       angles <- seq(0, 0.5, length.out = n) * pi * 2
       matrix(c(cos(angles) * r, sin(angles) * r), ncol = 2)
     }
-    
+
     total <- sum(data$seats)
     rows <- treated <- 0
     
@@ -50,7 +51,8 @@ StatParliament <- ggproto("StatParliament", Stat,
       treated <- sum(row_sums)
     }
     
-    ratio <- if (treated > total) round((row_sums / sum(row_sums)) * total) else row_sums
+    ratio <- if (treated > total) round((row_sums / sum(row_sums)) * total) else 
+      row_sums
     
     if (sum(ratio) != total) {
       diff <- sum(ratio) - total
@@ -76,18 +78,17 @@ StatParliament <- ggproto("StatParliament", Stat,
       }
     }
     
-    df <- data.frame(group = gl(nrow(arcs), 1), x = arcs[, 1], y = arcs[, 2], r = point_rad)
-
-    if ("color" %in% colnames(data)) {
-      df$color <- factor(group)
+    df <- data.frame(group = gl(nrow(arcs), 1), 
+                     x = arcs[, 1], 
+                     y = arcs[, 2], 
+                     r = point_rad)
+    
+    to_aes <- setdiff(names(data), c(names(df), "PANEL", "seats"))
+    
+    for (col_ in to_aes) {
+      df[, col_] <- factor(group)
     }
-    if ("colour" %in% colnames(data)) {
-      df$colour <- factor(group)
-    }
-    if ("fill" %in% colnames(data)) {
-      df$fill <- factor(group)
-    }
-    df <- StatCircle$compute_panel(df, scales, n)
-    df
+    
+    StatCircle$compute_panel(df, scales, n)
   }
 )

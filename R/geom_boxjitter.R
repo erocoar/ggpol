@@ -3,6 +3,9 @@
 #' Half boxplot, half scatterplot with customizable jitter.
 #' @inheritParams ggplot2::geom_boxplot
 #' 
+#' @param outlier.intersect Defaults to `FALSE`. If set to `TRUE`, outliers will be part of the jitter-plot
+#' (but keeping the given outlier graphical parameters) rather than plotted vertically above / below the whisker lines.
+#' 
 #' @param jitter.colour,jitter.color,jitter.fill,jitter.shape,jitter.size,jitter.stroke,jitter.alpha
 #' Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.
 #' 
@@ -12,9 +15,12 @@
 #' 
 #' @param jitter.seed Seed passed to position_jitter for reproducible jittering.
 #' 
+#' @param boxplot.expand Defaults to `FALSE`. If set to `TRUE`, the full boxplots will be plotted.
+#' 
 #' @param errorbar.draw Draw horizontal whiskers at the top and bottom (the IQR). Defaults to `FALSE`.
 #' 
-#' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot.
+#' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot,
+#' or half the width of the entire boxplot if `boxplot.expand` is set to `TRUE`.
 #' 
 #' @importFrom ggplot2 layer
 #' @export
@@ -27,7 +33,7 @@
 #' ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
 #'                             jitter.shape = 21, jitter.color = NA, 
 #'                             jitter.height = 0, jitter.width = 0.04,
-#'                             outlier.color = NA, errobar.draw = TRUE) +
+#'                             outlier.color = NA, errorbar.draw = TRUE) +
 #'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
 #'   theme_minimal()
 geom_boxjitter <- function(mapping = NULL, data = NULL,
@@ -40,6 +46,7 @@ geom_boxjitter <- function(mapping = NULL, data = NULL,
                            outlier.size = 1.5,
                            outlier.stroke = 0.5,
                            outlier.alpha = NULL,
+                           outlier.intersect = FALSE,
                            jitter.colour = NULL,
                            jitter.color = NULL,
                            jitter.fill = NULL,
@@ -50,6 +57,7 @@ geom_boxjitter <- function(mapping = NULL, data = NULL,
                            jitter.width = NULL,
                            jitter.height = NULL,
                            jitter.seed = NULL,
+                           boxplot.expand = FALSE,
                            notch = FALSE,
                            notchwidth = 0.5,
                            varwidth = FALSE,
@@ -73,6 +81,7 @@ geom_boxjitter <- function(mapping = NULL, data = NULL,
       outlier.size = outlier.size,
       outlier.stroke = outlier.stroke,
       outlier.alpha = outlier.alpha,
+      outlier.intersect = outlier.intersect,
       jitter.colour = jitter.color %||% jitter.colour,
       jitter.fill = jitter.fill,
       jitter.shape = jitter.shape,
@@ -82,6 +91,7 @@ geom_boxjitter <- function(mapping = NULL, data = NULL,
       jitter.width = jitter.width,
       jitter.height = jitter.height,
       jitter.seed = jitter.seed,
+      boxplot.expand = boxplot.expand,
       notch = notch,
       notchwidth = notchwidth,
       varwidth = varwidth,
@@ -108,11 +118,13 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
                         outlier.shape = 19,
                         outlier.size = 1.5, outlier.stroke = 0.5,
                         outlier.alpha = NULL,
+                        outlier.intersect = FALSE,
                         jitter.colour = NULL, jitter.fill = NULL,
                         jitter.shape = 19, jitter.size = 1.5,
                         jitter.stroke = 0.5, jitter.alpha = NULL,
                         jitter.width = NULL, jitter.height = NULL,
                         jitter.seed = NULL,
+                        boxplot.expand = FALSE,
                         notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
                         errorbar.draw = FALSE, errorbar.length = 0.5) {
     
@@ -142,10 +154,17 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
       if (errorbar.length > 1 | errorbar.length < 0) {
         stop("Error bar length must be between 0 and 1.")
       }
-      error_length_add <- ((data$xmin + xrange / 2) - data$xmin) * (1 - errorbar.length) #last term ^2 if want to do both sides 
+      error_length_add <- ((data$xmin + xrange / 2) - data$xmin) 
+      if (boxplot.expand) { #last term ^2 if want to do both sides
+        error_length_add <- error_length_add * (1 - errorbar.length)^2 
+      } else { 
+        error_length_add <- error_length_add * (1 - errorbar.length)
+      }
+      
       error_whiskers <- data.frame(
         x = data$xmin + error_length_add,
-        xend = (data$xmin + xrange / 2),
+        xend = if (boxplot.expand) data$xmax - error_length_add else 
+          (data$xmin + xrange / 2),
         y = c(data$ymax, data$ymin),
         yend = c(data$ymax, data$ymin),
         alpha = NA,
@@ -160,7 +179,7 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
 
     box <- data.frame(
       xmin = data$xmin,
-      xmax = data$xmin + xrange / 2,
+      xmax = if (boxplot.expand) data$xmax else data$xmin + xrange / 2,
       ymin = data$lower,
       y = data$middle,
       ymax = data$upper,
@@ -171,41 +190,59 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
       common,
       stringsAsFactors = FALSE
     )
-
-    jitter.width <- jitter.width %||% (data$xmax - (box$xmax + (data$xmax - box$xmax) / 1.75))
-    jitter.height <- jitter.height %||% (
-      resolution(data$jitter_y[[1]], zero = FALSE) * 0.4)
     
-    jitter_df <- data.frame(
-      width = jitter.width,
-      height = jitter.height
-      )
-    
-    if (!is.null(jitter.seed)) jitt_df$seed = jitter.seed
-    
-    jitter_positions <- PositionJitter$compute_layer(
-      data.frame(x = box$xmax + (data$xmax - box$xmax) / 2,
-                 y = data$jitter_y[[1]]),
-      jitter_df
-    )
+    if (!boxplot.expand) {
+      jitter.width <- jitter.width %||% 
+        (data$xmax - (box$xmax + (data$xmax - box$xmax) / 1.75))
+      jitter.height <- jitter.height %||% (
+        resolution(data$jitter_y[[1]], zero = FALSE) * 0.4)
       
-    jitt <- data.frame(
-      x = jitter_positions$x,
-      y = jitter_positions$y,
-      colour = jitter.colour %||% data$colour[1],
-      fill = jitter.fill %||% data$fill[1],
-      shape = jitter.shape %||% data$shape[1],
-      size = jitter.size %||% data$size[1],
-      stroke = jitter.stroke %||% data$stroke[1],
-      fill = NA,
-      alpha = jitter.alpha %||% data$alpha[1],
-      stringsAsFactors = FALSE
-    )
+      jitter_df <- data.frame(
+        width = jitter.width,
+        height = jitter.height
+        )
+      
+      if (!is.null(jitter.seed)) jitt_df$seed = jitter.seed
+      
+      jitter_positions <- PositionJitter$compute_layer(
+        data.frame(x = box$xmax + (data$xmax - box$xmax) / 2,
+                   y = data$jitter_y[[1]]),
+        jitter_df
+      )
+  
+      if (outlier.intersect & length(data$outliers[[1]]) >= 1) {
+        outlier_inds <- which(data$jitter_y[[1]] %in% data$outliers[[1]])
+        jitter_outlier <- jitter_positions[outlier_inds, ]
+        jitter_positions <- jitter_positions[-outlier_inds, ]
+      }
+        
+      jitt <- data.frame(
+        x = jitter_positions$x,
+        y = jitter_positions$y,
+        colour = jitter.colour %||% data$colour[1],
+        fill = jitter.fill %||% data$fill[1],
+        shape = jitter.shape %||% data$shape[1],
+        size = jitter.size %||% data$size[1],
+        stroke = jitter.stroke %||% data$stroke[1],
+        fill = NA,
+        alpha = jitter.alpha %||% data$alpha[1],
+        stringsAsFactors = FALSE
+      )
+      
+      jitter_grob <- GeomPoint$draw_panel(jitt, panel_params, coord)
+    } else {
+      jitter_grob <- NULL
+    }
+    
+    ddd <<- data
+
 
     if (!is.null(data$outliers) && length(data$outliers[[1]] >= 1)) {
       outliers <- data.frame(
-        y = data$outliers[[1]],
-        x = data$x[1],
+        y = if (outlier.intersect & !boxplot.expand) jitter_outlier$y else 
+          data$outliers[[1]],
+        x = if (outlier.intersect & !boxplot.expand) jitter_outlier$x else 
+          data$x[1],
         colour = outlier.colour %||% data$colour[1],
         fill = outlier.fill %||% data$fill[1],
         shape = outlier.shape %||% data$shape[1],
@@ -223,7 +260,7 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
     ggplot2:::ggname("geom_boxjitter", grobTree(
       outliers_grob,
       error_grob,
-      GeomPoint$draw_panel(jitt, panel_params, coord),
+      jitter_grob,
       GeomSegment$draw_panel(whiskers, panel_params, coord),
       GeomCrossbar$draw_panel(box, fatten = fatten, panel_params, coord)
     ))

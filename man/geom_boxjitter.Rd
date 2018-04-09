@@ -7,13 +7,14 @@
 geom_boxjitter(mapping = NULL, data = NULL, stat = "BoxJitter",
   position = "dodge", ..., outlier.colour = NULL, outlier.color = NULL,
   outlier.fill = NULL, outlier.shape = 19, outlier.size = 1.5,
-  outlier.stroke = 0.5, outlier.alpha = NULL, jitter.colour = NULL,
-  jitter.color = NULL, jitter.fill = NULL, jitter.shape = 19,
-  jitter.size = 1.5, jitter.stroke = 0.5, jitter.alpha = NULL,
-  jitter.width = NULL, jitter.height = NULL, jitter.seed = NULL,
-  notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
-  errorbar.draw = FALSE, errorbar.length = 0.5, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  outlier.stroke = 0.5, outlier.alpha = NULL, outlier.intersect = FALSE,
+  jitter.colour = NULL, jitter.color = NULL, jitter.fill = NULL,
+  jitter.shape = 19, jitter.size = 1.5, jitter.stroke = 0.5,
+  jitter.alpha = NULL, jitter.width = NULL, jitter.height = NULL,
+  jitter.seed = NULL, boxplot.expand = FALSE, notch = FALSE,
+  notchwidth = 0.5, varwidth = FALSE, errorbar.draw = FALSE,
+  errorbar.length = 0.5, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
@@ -88,6 +89,9 @@ to the paired geom/stat.}
   In the unlikely event you specify both US and UK spellings of colour, the
   US spelling will take precedence.}
 
+\item{outlier.intersect}{Defaults to `FALSE`. If set to `TRUE`, outliers will be part of the jitter-plot
+(but keeping the given outlier graphical parameters) rather than plotted vertically above / below the whisker lines.}
+
 \item{jitter.colour, jitter.color, jitter.fill, jitter.shape, jitter.size, jitter.stroke, jitter.alpha}{Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.}
 
 \item{jitter.width}{Width passed to position_jitter. Defaults to half the width of the boxplot.}
@@ -95,6 +99,8 @@ to the paired geom/stat.}
 \item{jitter.height}{Height passed to position_jitter. Defaults to 40 percent of the resolution.}
 
 \item{jitter.seed}{Seed passed to position_jitter for reproducible jittering.}
+
+\item{boxplot.expand}{Defaults to `FALSE`. If set to `TRUE`, the full boxplots will be plotted.}
 
 \item{notch}{if \code{FALSE} (default) make a standard box plot. If
 \code{TRUE}, make a notched box plot. Notches are used to compare groups;
@@ -111,7 +117,8 @@ weighted, using the \code{weight} aesthetic).}
 
 \item{errorbar.draw}{Draw horizontal whiskers at the top and bottom (the IQR). Defaults to `FALSE`.}
 
-\item{errorbar.length}{Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot.}
+\item{errorbar.length}{Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot,
+or half the width of the entire boxplot if `boxplot.expand` is set to `TRUE`.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
@@ -137,7 +144,7 @@ df <- data.frame(score = rgamma(150, 4, 1),
 ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
                             jitter.shape = 21, jitter.color = NA, 
                             jitter.height = 0, jitter.width = 0.04,
-                            outlier.color = NA) +
+                            outlier.color = NA, errorbar.draw = TRUE) +
   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
   theme_minimal()
 }

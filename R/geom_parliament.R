@@ -9,6 +9,8 @@
 #' - **seats** - number of seats of the parties
 #' - fill 
 #' - color
+#' - linetype
+#' - alpha
 #' 
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_polygon
@@ -58,3 +60,4 @@ GeomParliament <- ggproto("GeomParliament", GeomPolygon,
                           default_aes = list(colour = "black", fill = NA, 
                                              size = 0.5, linetype = 1, alpha = NA)
 )
+

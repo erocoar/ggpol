@@ -75,6 +75,8 @@ geom_parliament understands the following aesthetics (required aesthetics are in
 - **seats** - number of seats of the parties
 - fill 
 - color
+- linetype
+- alpha
 }
 
 \section{Computed variables}{

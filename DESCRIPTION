@@ -10,16 +10,16 @@ LazyData: true
 Depends:
 	ggplot2 (>= 2.2.0),
 	R (>= 3.4.0)
-Imports: 
+Imports:
 	grid,
 	gtable,
 	grDevices,
 	plyr
 RoxygenNote: 6.0.1
-Suggests: 
+Suggests:
 	knitr,
     rmarkdown
-Collate: 
+Collate:
     'facet_share.R'
     'geom_arcbar.R'
     'geom_boxjitter.R'
@@ -32,3 +32,4 @@ Collate:
 	  'stat-circle.R'
 	  'stat-parliament.R'
 	  'utilities.R'
+VignetteBuilder: knitr

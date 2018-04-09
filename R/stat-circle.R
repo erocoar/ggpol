@@ -28,7 +28,7 @@ StatCircle <- ggproto("StatCircle", Stat,
   compute_panel = function(data, scales, n = 360) {
     angle <- seq(-pi, pi, length.out = n)
     df <- do.call(rbind,
-      lapply(1:nrow(data), function(i) {
+      lapply(seq_v(data), function(i) {
         data.frame(x = data$x[i] + data$r[i] * cos(angle),
                    y = data$y[i] + data$r[i] * sin(angle),
                    group = i)
@@ -36,7 +36,6 @@ StatCircle <- ggproto("StatCircle", Stat,
       )
     
     add_cols <- setdiff(colnames(data), c(colnames(df), "r"))
-
     for (col_ in add_cols) {
       df[, col_] <- rep(data[, col_], each = n)
     }
