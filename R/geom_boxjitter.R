@@ -234,9 +234,6 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
       jitter_grob <- NULL
     }
     
-    ddd <<- data
-
-
     if (!is.null(data$outliers) && length(data$outliers[[1]] >= 1)) {
       outliers <- data.frame(
         y = if (outlier.intersect & !boxplot.expand) jitter_outlier$y else 
