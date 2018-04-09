@@ -10,6 +10,7 @@
 #' - fill 
 #' - color
 #' 
+#' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_polygon
 #' @param r0 Inner radius, defaults to 1.5.
 #' @param r1 Outer radius, defaults to 3.

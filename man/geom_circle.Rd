@@ -57,6 +57,8 @@ the default plot specification, e.g. \code{\link{borders}}.}
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
+
+\item{geom}{The geometric object to use display the data}
 }
 \description{
 Similar to `[geom_point()]`, but allows for full control of the size.

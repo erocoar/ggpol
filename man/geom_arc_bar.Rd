@@ -61,10 +61,6 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 to the paired geom/stat.}
 
 \item{geom}{The geometric object to use display the data}
-
-\item{n}{number of points used to calculate the circle polygon. Defaults to 360.}
-
-\item{sep}{Separation between the individual arc components as a total proportion of pi (i.e., the entire arc)}
 }
 \description{
 An arc bar diagram that allows for spacing between the individual arc components 

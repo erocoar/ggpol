@@ -12,7 +12,7 @@
 #' - fill
 #' - linetype
 #' - alpha 
-#'   
+#' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_polygon
 #' @param n The number of points calculated for the circle polygon, defaults to 360.
 #' 
