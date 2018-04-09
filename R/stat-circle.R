@@ -1,4 +1,4 @@
-#' @param n number of points calculated for the circle polygon, defaults to 360.
+#' @rdname geom_circle
 #' @importFrom ggplot2 layer
 #' @export
 #' @rdname geom_circle

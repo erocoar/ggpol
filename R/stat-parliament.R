@@ -1,17 +1,12 @@
-#' @param r0 inner radius of the arc. Defaults to 1.5
-#' @param r1 outer radius of the arc. Defaults to 3
-#' @param n number of points used to calculate individual circle polygons. Defaults to 360.
-#' @inheritParams ggplot2::stat_identity
+#' @rdname geom_parliament
 #' @section Computed variables:
 #' \describe{
-#'   \item{x}{x coordinates of individual MPs}
-#'   \item{y}{y coordinates of individual MPs}
+#'   \item{x,y}{coordinates of individual MPs}
 #' }
 #' 
 #' @importFrom ggplot2 layer
 #' 
 #' @export
-#' @rdname geom_parliament
 stat_parliament  <- function(mapping = NULL, data = NULL, geom = "parliament",
                              position = "identity", r0 = 1.5, r1 = 3, n = 360, 
                              na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {

@@ -3,9 +3,10 @@
 #' `facet_share` uses [facet_wrap()] to build two panels with a shared axis.
 #'
 #' @inheritParams ggplot2::facet_wrap
-#' @export
 #' @param reverse_num Used when passing on flipped data (times -1) for the 
 #' second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
+#' 
+#' @importFrom plyr as.quoted
 #' @export
 #' @examples
 #' df <- data.frame(age = sample(1:20, 1000, replace = TRUE), 
@@ -60,7 +61,7 @@ facet_share <- function(facets, scales = "fixed",
   
   ggproto(NULL, FacetShare,
           shrink = shrink,
-          params = list(facets = plyr::as.quoted(facets), free = free,
+          params = list(facets = as.quoted(facets), free = free,
                         as.table = as.table, 
                         strip.position = strip.position,
                         drop = drop, 

@@ -61,14 +61,6 @@ the default plot specification, e.g. \code{\link{borders}}.}
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{color = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
-
-\item{geom}{The geometric object to use display the data}
-
-\item{r0}{inner radius of the arc. Defaults to 1.5}
-
-\item{r1}{outer radius of the arc. Defaults to 3}
-
-\item{n}{number of points used to calculate individual circle polygons. Defaults to 360.}
 }
 \description{
 Draws a parliament diagram based on parties' member counts, 
@@ -86,8 +78,7 @@ geom_parliament understands the following aesthetics (required aesthetics are in
 \section{Computed variables}{
 
 \describe{
-  \item{x}{x coordinates of individual MPs}
-  \item{y}{y coordinates of individual MPs}
+  \item{x,y}{coordinates of individual MPs}
 }
 }
 
