@@ -1,6 +1,5 @@
 language: r
 sudo: true
-cache: packages
 dist: trusty
 
 before_install:
