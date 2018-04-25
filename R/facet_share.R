@@ -92,7 +92,8 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
     theme$panel.spacing.y <- unit(0, "npc")
   }
   
-  panel_table <- ggplot2::FacetWrap$draw_panels(panels, layout, x_scales, y_scales, ranges, coord, data, theme, params)
+  panel_table <- ggplot2::FacetWrap$draw_panels(
+    panels, layout, x_scales, y_scales, ranges, coord, data, theme, params)
   if (params$reverse_num) {
     if (params$dir == "h") {
       inds <- grep("axis-b|axis-t", panel_table$layout$name)
@@ -103,7 +104,9 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
       if (!"zeroGrob" %in% class(panel_table$grobs[[ind]])) {
         panel_table$grobs[[ind]]$children$axis$grobs[[1 + (params$dir == "h")]]$children[[1]]$label <-
           as.character(
-            as.numeric(panel_table$grobs[[ind]]$children$axis$grobs[[1 + (params$dir == "h")]]$children[[1]]$label)*-1)
+            as.numeric(
+              panel_table$grobs[[ind]]$children$axis$grobs[[1 + (
+                params$dir == "h")]]$children[[1]]$label)*-1)
       }
     }
   }
@@ -120,7 +123,7 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
       panel_table$grobs[[ind]] <- zeroGrob()
     }
   }
-   
+  
   axes <- render_axes(ranges, ranges, coord, theme, 
                       transpose = TRUE)
 
@@ -135,9 +138,12 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
     labs$children[[1]]$x <- unit(0.5, "npc")
     
     ax_tick_l <- ax_tick_r <- axes$y$left[[1]]$children$axis$grobs[[tick_idx]]
-    tick_count <- length(ax_tick_r$x)
-    ax_tick_r$x[seq(1, tick_count, 2)] <- unit(0, "npc")
-    ax_tick_r$x[seq(2, tick_count, 2)] <- convertWidth(grobWidth(ax_tick_l), "pt")
+
+    if (!"zeroGrob" %in% class(ax_tick_l)) {
+      tick_count <- length(ax_tick_r$x)
+      ax_tick_r$x[seq(1, tick_count, 2)] <- unit(0, "npc")
+      ax_tick_r$x[seq(2, tick_count, 2)] <- convertWidth(grobWidth(ax_tick_l), "pt")
+    }
     
     shared_axis <- matrix(list(
       ax_tick_l,
@@ -157,7 +163,7 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
     
   } else {
     tick_idx <- grep("axis.ticks",
-                     sapply(axes$x$bottom[[1]]$children$axis$grobs, function(x) x$name))
+      sapply(axes$x$bottom[[1]]$children$axis$grobs, function(x) x$name))
     lab_idx <- (tick_idx == 1) + 1
     
     labs <- axes$x$bottom[[1]]$children$axis$grobs[[lab_idx]]
@@ -165,8 +171,11 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
     labs$children[[1]]$y <- unit(0.5, "npc")
     
     ax_tick_b <- ax_tick_t <- axes$x$bottom[[1]]$children$axis$grobs[[tick_idx]]
-    ax_tick_t$y[seq(1, length(ax_tick_t$y), 2)] <- unit(0, "npc")
-    ax_tick_t$y[seq(2, length(ax_tick_t$y), 2)] <- convertHeight(grobHeight(ax_tick_b), "pt")
+    
+    if (!"zeroGrob" %in% class(ax_tick_b)) {
+      ax_tick_t$y[seq(1, length(ax_tick_t$y), 2)] <- unit(0, "npc")
+      ax_tick_t$y[seq(2, length(ax_tick_t$y), 2)] <- convertHeight(grobHeight(ax_tick_b), "pt")
+    }
     
     shared_axis <- matrix(list(
       ax_tick_b,
@@ -194,14 +203,19 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
   } else {
     sa_inds <- grep("null", as.character(panel_table$heights))
     if (sum(sa_inds) / 2 - as.integer(sum(sa_inds) / 2) != 0) {
-      panel_table$heights[as.integer(sum(sa_inds) / 2)] <- convertHeight(sum(shared_axis$heights), "cm") 
-      panel_table$heights[as.integer(sum(sa_inds) / 2) + 1] <- convertHeight(sum(shared_axis$heights), "cm") 
-      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = panel_table$layout$l[2], 
-                                             t = as.integer(sum(sa_inds) / 2) + 1, b = 6, clip = "on")
+      panel_table$heights[as.integer(sum(sa_inds) / 2)] <- 
+        convertHeight(sum(shared_axis$heights), "cm") 
+      panel_table$heights[as.integer(sum(sa_inds) / 2) + 1] <- 
+        convertHeight(sum(shared_axis$heights), "cm") 
+      panel_table <- 
+        gtable::gtable_add_grob(panel_table, shared_axis, l = panel_table$layout$l[2], 
+          t = as.integer(sum(sa_inds) / 2) + 1, b = 6, clip = "on")
     }
     else {
-      panel_table$heights[sum(sa_inds) / 2] <- convertHeight(sum(shared_axis$heights), "cm") + 2 * panel_spacing
-      panel_table <- gtable::gtable_add_grob(panel_table, shared_axis, l = panel_table$layout$l[1], t = (sum(sa_inds) / 2), clip = "on")
+      panel_table$heights[sum(sa_inds) / 2] <- 
+        convertHeight(sum(shared_axis$heights), "cm") + 2 * panel_spacing
+      panel_table <- gtable::gtable_add_grob(
+        panel_table, shared_axis, l = panel_table$layout$l[1], t = (sum(sa_inds) / 2), clip = "on")
     }
   }
 
