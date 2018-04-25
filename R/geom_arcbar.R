@@ -36,7 +36,7 @@
 #'   scale_fill_manual(values = bt$colors) +
 #'   coord_fixed() +
 #'   theme_void()
-geom_arcbar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
+geom_arcbar <- function(mapping = NULL, data = NULL, stat = "arcbar",
                          position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
                          show.legend = NA, inherit.aes = TRUE, ...) {
   layer(data = data, 

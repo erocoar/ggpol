@@ -5,7 +5,7 @@
 \alias{stat_arcbar}
 \title{Create an Arc-Barchart}
 \usage{
-geom_arcbar(mapping = NULL, data = NULL, stat = "arc_bar",
+geom_arcbar(mapping = NULL, data = NULL, stat = "arcbar",
   position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE, ...)
 
