@@ -32,7 +32,7 @@
 #'   stringsAsFactors = FALSE)
 #' 
 #' ggplot(bt) + 
-#'   geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + 
+#'   geom_arcbar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties)) + 
 #'   scale_fill_manual(values = bt$colors) +
 #'   coord_fixed() +
 #'   theme_void()
