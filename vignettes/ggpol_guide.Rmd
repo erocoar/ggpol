@@ -22,7 +22,7 @@ library(ggpol)
 
 ## GeomArcbar
 
-`geom_arc_bar` plot arc bar diagrams that span 180 degrees. They also take an optional spacing argument `sep` that is entered as a total proportion of pi. This is best demonstrated with an example:
+`geom_arcbar` plot arc bar diagrams that span 180 degrees. They also take an optional spacing argument `sep` that is entered as a total proportion of pi. This is best demonstrated with an example:
 
 ```{r}
 bt <- data.frame(
@@ -36,7 +36,7 @@ bt <- data.frame(
   stringsAsFactors = FALSE)
 
 ggplot(bt) + 
-  geom_arc_bar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties), 
+  geom_arcbar(aes(shares = seats, r0 = 5, r1 = 10, fill = parties), 
                sep = 0.1) + 
   scale_fill_manual(values = bt$colors) +
   coord_fixed() +
