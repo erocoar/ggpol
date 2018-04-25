@@ -4,7 +4,7 @@
 #' and spans 180 degrees.
 #' 
 #' @section Aesthetics:
-#' geom_arc_bar understands the following aesthetics (required aesthetics are in bold):
+#' geom_arcbar understands the following aesthetics (required aesthetics are in bold):
 #' 
 #' - **shares**
 #' - **r0** - inner radius
@@ -36,13 +36,13 @@
 #'   scale_fill_manual(values = bt$colors) +
 #'   coord_fixed() +
 #'   theme_void()
-geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
+geom_arcbar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
                          position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
                          show.legend = NA, inherit.aes = TRUE, ...) {
   layer(data = data, 
         mapping = mapping, 
         stat = stat, 
-        geom = GeomArcBar,
+        geom = GeomArcbar,
         position = position, 
         show.legend = show.legend, 
         inherit.aes = inherit.aes,
@@ -53,6 +53,6 @@ geom_arc_bar <- function(mapping = NULL, data = NULL, stat = "arc_bar",
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomArcBar <- ggproto("GeomArcBar", ggplot2::GeomPolygon,
+GeomArcbar <- ggproto("GeomArcbar", ggplot2::GeomPolygon,
                       default_aes = list(colour = "black", fill = NA, size = 0.5, linetype = 1, alpha = NA)
 )

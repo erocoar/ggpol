@@ -6,13 +6,13 @@
 \docType{data}
 \name{FacetShare}
 \alias{FacetShare}
-\alias{GeomArcBar}
+\alias{GeomArcbar}
 \alias{GeomBoxJitter}
 \alias{GeomCircle}
 \alias{GeomParliament}
 \alias{GeomTshighlight}
 \alias{ggpol-extensions}
-\alias{StatArcBar}
+\alias{StatArcbar}
 \alias{StatBoxJitter}
 \alias{StatCircle}
 \alias{StatParliament}

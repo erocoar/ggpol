@@ -1,11 +1,11 @@
-#' @rdname geom_arc_bar
+#' @rdname geom_arcbar
 #' @importFrom ggplot2 layer
 #' @export
-stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
+stat_arcbar  <- function(mapping = NULL, data = NULL, geom = "arcbar",
                           position = "identity", n = 360, sep = 0.05, na.rm = FALSE,
                           show.legend = NA, inherit.aes = TRUE, ...) {
   layer(
-    stat = StatArcBar,
+    stat = StatArcbar,
     mapping = mapping,
     data = data, 
     geom = geom,
@@ -21,7 +21,7 @@ stat_arc_bar  <- function(mapping = NULL, data = NULL, geom = "arc_bar",
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
 #' @export
-StatArcBar <- ggproto("StatArcBar", Stat,
+StatArcbar <- ggproto("StatArcbar", Stat,
   required_aes = c("shares", "r0", "r1"),
   
   compute_panel = function(data, scales, n = 360, sep = 0.05) {
