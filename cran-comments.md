@@ -5,3 +5,6 @@
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs.
+
+## Changes:
+* put ggplot2 in single quotes in title and description
