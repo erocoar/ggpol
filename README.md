@@ -16,6 +16,8 @@ devtools::install_github('erocoar/ggpol')
 ```
 ### Selected Features
 Below are two functions added by `ggpol`. For a full overview with applications, please refer to the [vignette](https://erocoar.github.io/ggpol/).
+
+
 `geom_parliament` draws a parliament diagram, clustering points along an arc by parties with each point representing a single member of parliament. 
 
 ```r
