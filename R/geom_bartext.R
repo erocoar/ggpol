@@ -6,7 +6,7 @@ geom_bartext <- function(mapping = NULL,
                          nudge_x = 0,
                          nudge_y = 0,
                          spacing = 0.005,
-                         dir = "h",
+                         dir = "v",
                          check_overlap = FALSE,
                          na.rm = FALSE,
                          show.legend = NA,
@@ -43,7 +43,9 @@ geom_bartext <- function(mapping = NULL,
 GeomBartext <- ggproto("GeomBartext", GeomText,
 
   draw_panel = function(data, panel_params, coord, parse = FALSE,
-                        na.rm = FALSE, check_overlap = FALSE, dir = "h", spacing = 0.005) {
+                        na.rm = FALSE, check_overlap = FALSE, dir = "v", 
+                        spacing = 0.005) {
+    
     lab <- data$label
     if (parse) {
       lab <- parse(text = as.character(lab))
@@ -76,7 +78,14 @@ GeomBartext <- ggproto("GeomBartext", GeomText,
     
     grob_widths <- sapply(grobs, function(x) convertWidth(grobWidth(x), "npc"))
     grob_height <- convertHeight(grobHeight(grobs[[1]]), "npc", TRUE)
-    data$overlap <- (data$ymax - data$ymin) - grob_height <= 0
+    
+    data$overlap <- (data$ymax - data$ymin) - grob_height <= spacing
+    
+    if (all.equal(data$ymax, data$y)) {
+      rl <- rle(data$overlap)
+      rl_idx <- cumsum(rl$lengths)[rl$values] - rl$lengths[rl$values]
+      data$overlap[rl_idx[rl_idx > 0]] <- TRUE
+    }
     
     rl <- rle(data$overlap)
     rl$lengths <- cumsum(rl$lengths)
