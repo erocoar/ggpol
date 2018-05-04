@@ -92,7 +92,7 @@ GeomBartext <- ggproto("GeomBartext", GeomText,
     
     data$overlap <- (data$ymax - data$ymin) - grob_height <= spacing
     
-    if (all.equal(data$ymax, data$y)) {
+    if (isTRUE(all.equal(data$ymax, data$y))) {
       rl <- rle(data$overlap)
       rl_idx <- cumsum(rl$lengths)[rl$values] - rl$lengths[rl$values]
       data$overlap[rl_idx[rl_idx > 0]] <- TRUE
