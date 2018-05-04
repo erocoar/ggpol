@@ -1,3 +1,8 @@
+#' Repelling text for GeomBar.
+#' 
+#' @importFrom ggplot2 layer
+#' @export
+
 geom_bartext <- function(mapping = NULL, 
                          data = NULL,
                          stat = "identity", 
@@ -40,6 +45,12 @@ geom_bartext <- function(mapping = NULL,
   )
 }
 
+#' @rdname ggpol-extensions
+#' @format NULL
+#' @usage NULL
+#' @importFrom ggplot2 ggproto GeomText aes
+#' @importFrom grid textGrob convertWidth grobWidth convertHeight grobHeight gpar
+#' @export
 GeomBartext <- ggproto("GeomBartext", GeomText,
 
   draw_panel = function(data, panel_params, coord, parse = FALSE,
