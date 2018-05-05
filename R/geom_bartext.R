@@ -1,7 +1,24 @@
 #' Repelling text for GeomBar.
 #' 
+#' @inheritParams ggplot2::geom_boxplot
+#' 
+#' @param dir Defaults to "v", i.e. vertical repel of overlapping groups of labels. Can alternatively be set to "h" for horizontal repel.
+#' 
+#' @param spacing Defaults to 0.003. Minimum spacing between labels in NPC units.
+#' 
 #' @importFrom ggplot2 layer
 #' @export
+#' 
+#' @examples 
+#' df <- data.frame(L = rep(LETTERS[1:2], each = 4),
+#'                  l = rep(letters[1:4], 2),
+#'                  val = c(96.5, 1, 2, 0.5, 48, 0.7, 0.3, 51))
+#'  
+#' ggplot(df, aes(x = L, y = val, fill = l)) +
+#'   geom_bar(stat = "identity") +
+#'   geom_bartext(aes(label = scales::percent(val / 100)), position = position_stack(vjust = 0.5)) +
+#'   ggtitle("GeomBartext") 
+#'   
 
 geom_bartext <- function(mapping = NULL, 
                          data = NULL,
@@ -10,7 +27,7 @@ geom_bartext <- function(mapping = NULL,
                          parse = FALSE,
                          nudge_x = 0,
                          nudge_y = 0,
-                         spacing = 0.005,
+                         spacing = 0.003,
                          dir = "v",
                          check_overlap = FALSE,
                          na.rm = FALSE,
@@ -55,7 +72,7 @@ GeomBartext <- ggproto("GeomBartext", GeomText,
 
   draw_panel = function(data, panel_params, coord, parse = FALSE,
                         na.rm = FALSE, check_overlap = FALSE, dir = "v", 
-                        spacing = 0.005) {
+                        spacing = 0.003) {
     
     lab <- data$label
     if (parse) {
