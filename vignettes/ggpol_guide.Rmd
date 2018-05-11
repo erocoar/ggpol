@@ -44,6 +44,7 @@ ggplot(bt) +
 Consider e.g. this:
 
 ```{r}
+library(scales)
 df <- data.frame(L = rep(LETTERS[1:2], each = 4),
                  l = rep(letters[1:4], 2),
                  val = c(96.5, 1, 2, 0.5, 48, 0.7, 0.3, 51))
