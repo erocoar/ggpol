@@ -1,6 +1,6 @@
 #' Repelling text for GeomBar.
 #' 
-#' @inheritParams ggplot2::geom_boxplot
+#' @inheritParams ggplot2::geom_text
 #' 
 #' @param dir Defaults to "v", i.e. vertical repel of overlapping groups of labels. Can alternatively be set to "h" for horizontal repel.
 #' 

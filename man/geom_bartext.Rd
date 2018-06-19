@@ -29,15 +29,27 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame.}, and
 will be used as the layer data.}
 
-\item{stat}{Use to override the default connection between
-\code{geom_boxplot} and \code{stat_boxplot}.}
+\item{stat}{The statistical transformation to use on the data for this
+layer, as a string.}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
+\item{parse}{If \code{TRUE}, the labels will be parsed into expressions and
+displayed as described in ?plotmath}
+
+\item{nudge_x}{Horizontal and vertical adjustment to nudge labels by.
+Useful for offsetting text from points, particularly on discrete scales.}
+
+\item{nudge_y}{Horizontal and vertical adjustment to nudge labels by.
+Useful for offsetting text from points, particularly on discrete scales.}
+
 \item{spacing}{Defaults to 0.003. Minimum spacing between labels in NPC units.}
 
 \item{dir}{Defaults to "v", i.e. vertical repel of overlapping groups of labels. Can alternatively be set to "h" for horizontal repel.}
+
+\item{check_overlap}{If \code{TRUE}, text that overlaps previous text in the
+same layer will not be plotted.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

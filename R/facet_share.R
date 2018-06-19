@@ -226,6 +226,23 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
   })
 
 
+#######
+
+as_facets <- function(x) {
+  if (is_facets(x)) {
+    return(x)
+  }
+  
+  if (rlang::is_formula(x)) {
+    # Use different formula method because plyr's does not handle the
+    # environment correctly.
+    f_as_facets(x)
+  } else {
+    vars <- as_quoted(x)
+    as_quosures(vars, globalenv(), named = TRUE)
+  }
+}
+
 as_facets_list <- function(x) {
   if (inherits(x, "mapping")) {
     stop("Please use `vars()` to supply facet variables")
@@ -253,7 +270,7 @@ as_facets_list <- function(x) {
   
   # For backward-compatibility with facet_wrap()
   if (!rlang::is_bare_list(x)) {
-    x <- as_quoted(x)
+    x <- plyr::as.quoted(x)
   }
   
   # If we have a list there are two possibilities. We may already have
