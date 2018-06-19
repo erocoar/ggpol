@@ -1,3 +1,12 @@
+# ggpol 0.0.2
+
+## New features
+- `geom_bartext` for otherwise overlapping bar chart labels
+
+## Minor changes
+- `facet_share` axis spacing has been fixed for vertical direction
+
+
 # ggpol 0.0.1
 
 ## Major changes

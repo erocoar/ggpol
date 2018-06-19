@@ -33,4 +33,3 @@ Collate:
 	  'stat-circle.R'
 	  'stat-parliament.R'
 	  'utilities.R'
-VignetteBuilder: knitr
