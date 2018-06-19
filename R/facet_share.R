@@ -227,6 +227,15 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
 
 
 #######
+is_facets <- function(x) {
+  if (!is.list(x)) {
+    return(FALSE)
+  }
+  if (!length(x)) {
+    return(FALSE)
+  }
+  all(vapply(x, rlang::is_quosure, logical(1)))
+}
 
 as_facets <- function(x) {
   if (is_facets(x)) {
@@ -238,7 +247,7 @@ as_facets <- function(x) {
     # environment correctly.
     f_as_facets(x)
   } else {
-    vars <- as_quoted(x)
+    vars <- plyr::as.quoted(x)
     as_quosures(vars, globalenv(), named = TRUE)
   }
 }
