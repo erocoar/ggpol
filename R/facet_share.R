@@ -57,20 +57,28 @@ facet_share <- function(facets, scales = "fixed",
   )
   
   strip.position <- match.arg(strip.position, c("top", "bottom", "left", "right", "outer"))
-  
-  facets_list <- as_facets_list(facets)
-  facets <- rlang::flatten_if(facets_list, rlang::is_list)
+
+  if (as.character(packageVersion("ggplot2")) %in%  c("2.3.0", "2.2.1.9000")) {
+    # Flatten all facets dimensions into a single one
+    facets_list <- as_facets_list(facets)
+    facets <- rlang::flatten_if(facets_list, rlang::is_list)
+  } else {
+    facets = plyr::as.quoted(facets)
+  }
   
   ggproto(NULL, FacetShare,
           shrink = shrink,
-          params = list(facets = facets, free = free,
-                        as.table = as.table, 
-                        strip.position = strip.position,
-                        drop = drop, 
-                        labeller = labeller,
-                        dir = dir,
-                        reverse_num = reverse_num)
-  )
+          params = list(
+            facets = facets, 
+            free = free,
+            as.table = as.table, 
+            strip.position = strip.position,
+            drop = drop, 
+            labeller = labeller,
+            dir = dir,
+            reverse_num = reverse_num
+          )
+        )
 }
 
 #' @rdname ggpol-extensions
@@ -361,13 +369,14 @@ f_as_facets <- function(f) {
   env <- rlang::f_env(f) %||% globalenv()
   
   # as.quoted() handles `+` specifications
-  vars <- plyr::as.quoted(f)
-  
+  vars <- plyr::as.quoted(x=f)
+
   # `.` in formulas is ignored
   vars <- discard_dots(vars)
   
   as_quosures(vars, env, named = TRUE)
 }
+
 discard_dots <- function(x) {
   x[!vapply(x, identical, logical(1), as.name("."))]
 }
