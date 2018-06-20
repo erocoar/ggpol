@@ -6,6 +6,7 @@
 #' @param reverse_num Used when passing on flipped data (times -1) for the 
 #' second (right/bottom) panel. If `TRUE`, this will multiply the axis labels for that panel by -1.
 #' 
+#' @importFrom utils packageVersion
 #' @export
 #' @examples
 #' df <- data.frame(age = sample(1:20, 1000, replace = TRUE), 

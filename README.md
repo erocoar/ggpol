@@ -54,3 +54,4 @@ ggplot(df) + geom_boxjitter(aes(x = genotype, y = score, fill = gender),
 ![Hybrid Boxplot](https://i.imgur.com/zlwIs14.png)
 
 ### Roadmap
+If you would like to see a certain feature, please file an issue with a detailed description.
