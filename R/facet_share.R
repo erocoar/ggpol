@@ -366,3 +366,21 @@ new_quosures <- function(x) {
 discard_dots <- function(x) {
   x[!vapply(x, identical, logical(1), as.name("."))]
 }
+
+simplify <- function(x) {
+  if (length(x) == 2 && rlang::is_symbol(x[[1]], "~")) {
+    return(simplify(x[[2]]))
+  }
+  if (length(x) < 3) {
+    return(list(x))
+  }
+  op <- x[[1]]; a <- x[[2]]; b <- x[[3]]
+  
+  if (rlang::is_symbol(op, c("+", "*", "~"))) {
+    c(simplify(a), simplify(b))
+  } else if (rlang::is_symbol(op, "-")) {
+    c(simplify(a), ggplot2::expr(-!!simplify(b)))
+  } else {
+    list(x)
+  }
+}
