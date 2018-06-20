@@ -225,46 +225,22 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
 
 
 #######
-# Compatibility with plyr::as.quoted()
-as_quoted <- function(x) {
-  if (is.character(x)) {
-    if (length(x) > 1) {
-      x <- paste(x, collapse = "; ")
-    }
-    return(rlang::parse_exprs(x))
+new_quosures <- function(x) {
+  if (!rlang::is_list(x)) {
+    stop("Expected a list of quosures")
   }
-  if (is.null(x)) {
-    return(list())
-  }
-  if (rlang::is_formula(x)) {
-    return(simplify(x))
-  }
-  list(x)
+  structure(x,
+            class = "quosures",
+            names = rlang::names2(x)
+  )
 }
 
-is_facets <- function(x) {
-  if (!is.list(x)) {
-    return(FALSE)
+as_quosures <- function(x, env, named = FALSE) {
+  x <- lapply(x, rlang::as_quosure, env = env)
+  if (named) {
+    x <- rlang::quos_auto_name(x)
   }
-  if (!length(x)) {
-    return(FALSE)
-  }
-  all(vapply(x, rlang::is_quosure, logical(1)))
-}
-
-as_facets <- function(x) {
-  if (is_facets(x)) {
-    return(x)
-  }
-  
-  if (rlang::is_formula(x)) {
-    # Use different formula method because plyr's does not handle the
-    # environment correctly.
-    f_as_facets(x)
-  } else {
-    vars <- as_quoted(x)
-    as_quosures(vars, globalenv(), named = TRUE)
-  }
+  new_quosures(x)
 }
 
 as_facets_list <- function(x) {
@@ -311,6 +287,40 @@ as_facets_list <- function(x) {
   x
 }
 
+as_quoted <- function(x) {
+  if (is.character(x)) {
+    if (length(x) > 1) {
+      x <- paste(x, collapse = "; ")
+    }
+    return(rlang::parse_exprs(x))
+  }
+  if (is.null(x)) {
+    return(list())
+  }
+  if (rlang::is_formula(x)) {
+    return(simplify(x))
+  }
+  list(x)
+}
+# From plyr:::as.quoted.formula
+simplify <- function(x) {
+  if (length(x) == 2 && rlang::is_symbol(x[[1]], "~")) {
+    return(simplify(x[[2]]))
+  }
+  if (length(x) < 3) {
+    return(list(x))
+  }
+  op <- x[[1]]; a <- x[[2]]; b <- x[[3]]
+  
+  if (rlang::is_symbol(op, c("+", "*", "~"))) {
+    c(simplify(a), simplify(b))
+  } else if (rlang::is_symbol(op, "-")) {
+    c(simplify(a), expr(-!!simplify(b)))
+  } else {
+    list(x)
+  }
+}
+
 f_as_facets_list <- function(f) {
   lhs <- function(x) if (length(x) == 2) NULL else x[-3]
   rhs <- function(x) if (length(x) == 2) x else x[-2]
@@ -329,6 +339,20 @@ f_as_facets_list <- function(f) {
   }
 }
 
+as_facets <- function(x) {
+  if (is_facets(x)) {
+    return(x)
+  }
+  
+  if (rlang::is_formula(x)) {
+    # Use different formula method because plyr's does not handle the
+    # environment correctly.
+    f_as_facets(x)
+  } else {
+    vars <- as_quoted(x)
+    as_quosures(vars, globalenv(), named = TRUE)
+  }
+}
 f_as_facets <- function(f) {
   if (is.null(f)) {
     return(as_quosures(list()))
@@ -344,43 +368,18 @@ f_as_facets <- function(f) {
   
   as_quosures(vars, env, named = TRUE)
 }
-
-as_quosures <- function(x, env, named = FALSE) {
-  x <- lapply(x, rlang::as_quosure, env = env)
-  if (named) {
-    x <- rlang::quos_auto_name(x)
-  }
-  new_quosures(x)
-}
-
-new_quosures <- function(x) {
-  if (!rlang::is_list(x)) {
-    stop("Expected a list of quosures")
-  }
-  structure(x,
-            class = "quosures",
-            names = rlang::names2(x)
-  )
-}  
-
 discard_dots <- function(x) {
   x[!vapply(x, identical, logical(1), as.name("."))]
 }
 
-simplify <- function(x) {
-  if (length(x) == 2 && rlang::is_symbol(x[[1]], "~")) {
-    return(simplify(x[[2]]))
+is_facets <- function(x) {
+  if (!is.list(x)) {
+    return(FALSE)
   }
-  if (length(x) < 3) {
-    return(list(x))
+  if (!length(x)) {
+    return(FALSE)
   }
-  op <- x[[1]]; a <- x[[2]]; b <- x[[3]]
-  
-  if (rlang::is_symbol(op, c("+", "*", "~"))) {
-    c(simplify(a), simplify(b))
-  } else if (rlang::is_symbol(op, "-")) {
-    c(simplify(a), ggplot2::expr(-!!simplify(b)))
-  } else {
-    list(x)
-  }
+  all(vapply(x, rlang::is_quosure, logical(1)))
 }
+
+
