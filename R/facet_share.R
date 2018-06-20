@@ -47,8 +47,6 @@ facet_share <- function(facets, scales = "fixed",
                         shrink = TRUE, labeller = "label_value", as.table = TRUE,
                         switch = NULL, drop = TRUE, dir = "h", strip.position = "top") {
   
-  print("@HELLO")
-  
   scales <- match.arg(scales, c("fixed", "free_x", "free_y", "free"))
   dir <- match.arg(dir, c("h", "v"))
   reverse_num <- reverse_num
@@ -227,6 +225,23 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
 
 
 #######
+# Compatibility with plyr::as.quoted()
+as_quoted <- function(x) {
+  if (is.character(x)) {
+    if (length(x) > 1) {
+      x <- paste(x, collapse = "; ")
+    }
+    return(rlang::parse_exprs(x))
+  }
+  if (is.null(x)) {
+    return(list())
+  }
+  if (rlang::is_formula(x)) {
+    return(simplify(x))
+  }
+  list(x)
+}
+
 is_facets <- function(x) {
   if (!is.list(x)) {
     return(FALSE)
@@ -247,7 +262,7 @@ as_facets <- function(x) {
     # environment correctly.
     f_as_facets(x)
   } else {
-    vars <- plyr::as.quoted(x)
+    vars <- as_quoted(x)
     as_quosures(vars, globalenv(), named = TRUE)
   }
 }
@@ -279,7 +294,7 @@ as_facets_list <- function(x) {
   
   # For backward-compatibility with facet_wrap()
   if (!rlang::is_bare_list(x)) {
-    x <- plyr::as.quoted(x)
+    x <- as_quoted(x)
   }
   
   # If we have a list there are two possibilities. We may already have
