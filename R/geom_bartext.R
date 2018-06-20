@@ -7,7 +7,6 @@
 #' @param spacing Defaults to 0.003. Minimum spacing between labels in NPC units.
 #' 
 #' @importFrom ggplot2 layer position_nudge
-#' @importFrom scales percent
 #' @export
 #' 
 #' @examples 
