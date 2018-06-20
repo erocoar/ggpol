@@ -315,7 +315,7 @@ simplify <- function(x) {
   if (rlang::is_symbol(op, c("+", "*", "~"))) {
     c(simplify(a), simplify(b))
   } else if (rlang::is_symbol(op, "-")) {
-    c(simplify(a), expr(-!!simplify(b)))
+    c(simplify(a), rlang::expr(-!!simplify(b)))
   } else {
     list(x)
   }

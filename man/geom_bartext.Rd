@@ -80,7 +80,7 @@ df <- data.frame(L = rep(LETTERS[1:2], each = 4),
  
 ggplot(df, aes(x = L, y = val, fill = l)) +
   geom_bar(stat = "identity") +
-  geom_bartext(aes(label = scales::percent(val / 100)), position = position_stack(vjust = 0.5)) +
+  geom_bartext(aes(label = paste0(val, "\%")), position = position_stack(vjust = 0.5)) +
   ggtitle("GeomBartext") 
   
 }
