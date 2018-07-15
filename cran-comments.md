@@ -7,5 +7,4 @@
 There were no ERRORs, WARNINGs or NOTEs.
 
 ## Changes:
-* add geom_bartext
-* make facet_share compatible with incoming ggplot update
+* make facet_share compatible with ggplot 3.0.0

@@ -1,3 +1,9 @@
+# ggpol 0.0.3
+
+## Minor changes
+- `facet_share` fixed for `ggplot` version `3.0.0`.
+
+
 # ggpol 0.0.2
 
 ## New features
