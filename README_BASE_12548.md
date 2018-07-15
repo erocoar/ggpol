@@ -1,11 +1,7 @@
-[![Build Status](https://travis-ci.org/erocoar/ggpol.svg?branch=master)](https://travis-ci.org/erocoar/ggpol)
-[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ggpol)](https://CRAN.R-project.org/package=ggpol)
-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggpol)](https://CRAN.R-project.org/package=ggpol)
-<<<<<<< HEAD
-
-=======
+-[![Build Status](https://travis-ci.org/erocoar/ggpol.svg?branch=master)](https://travis-ci.org/erocoar/ggpol)
+-[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ggpol)](https://CRAN.R-project.org/package=ggpol)
+-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggpol)](https://CRAN.R-project.org/package=ggpol)
 -
->>>>>>> fe1064435de7a1d467e0938128d26734c57f003f
 ### About
 `ggpol` adds parliament diagrams and various other visualizations and convenience functions to `ggplot2`.
 
