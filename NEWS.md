@@ -1,3 +1,9 @@
+# ggpol 0.0.3.9000
+
+## Minor changes
+- `StatBoxJitter` now inherits from `StatBoxplot`, making for slimmer bars.
+- `geom_boxplot()` does not require `x` argument anymore.
+
 # ggpol 0.0.3
 
 ## Minor changes
