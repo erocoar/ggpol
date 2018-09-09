@@ -4,8 +4,8 @@
 #' @usage NULL
 #' @importFrom ggplot2 ggproto Stat
 #' @export
-StatBoxJitter <- ggproto("StatBoxJitter", Stat,
-   required_aes = c("x", "y"),
+StatBoxJitter <- ggproto("StatBoxJitter", StatBoxplot,
+   required_aes = c("y"),
    non_missing_aes = "weight",
    
    compute_group = function(data, scales, width = NULL, na.rm = FALSE, coef = 1.5) {
