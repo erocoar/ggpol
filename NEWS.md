@@ -3,7 +3,8 @@
 ## Minor changes
 - `StatBoxJitter` now inherits from `StatBoxplot` rather than `Stat`, making for slimmer bars.
 - `geom_boxjitter()` does not require `x` argument anymore.
--  Added import of `ggplot2::resolution()`, `ggplot2::alpha()` and `ggplot2:PositionJitter` to `geom_boxjitter()`.
+-  Added import of `ggplot2::resolution()`, `ggplot2::alpha()` and `ggplot2:PositionJitter` to `geom_boxjitter()`. (#2)
+-  Added import of `ggplot2::.pt` to `geom_bartext()`.
 
 
 # ggpol 0.0.3
