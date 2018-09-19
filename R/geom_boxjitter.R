@@ -116,7 +116,7 @@ geom_boxjitter <- function(mapping = NULL, data = NULL,
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 alpha ggproto GeomBoxplot aes GeomSegment GeomPoint GeomCrossbar resolution
+#' @importFrom ggplot2 alpha ggproto GeomBoxplot aes GeomSegment GeomPoint GeomCrossbar resolution PositionJitter
 #' @importFrom grid grobTree
 #' @export
 GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
