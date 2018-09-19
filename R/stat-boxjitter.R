@@ -2,7 +2,6 @@
 #' @importFrom ggplot2 ggproto Stat StatBoxplot
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 ggproto Stat
 #' @export
 StatBoxJitter <- ggproto("StatBoxJitter", StatBoxplot,
    required_aes = c("y"),
