@@ -84,6 +84,7 @@ facet_share <- function(facets, scales = "fixed",
 #' @rdname ggpol-extensions
 #' @format NULL
 #' @usage NULL
+#' @importFrom ggplot2 zeroGrob
 #' @importFrom grid unit convertWidth grobWidth convertHeight grobHeight
 #' @importFrom gtable gtable_matrix gtable_add_col_space gtable_add_row_space gtable_add_grob
 #' @export
