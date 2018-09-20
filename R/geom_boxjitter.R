@@ -22,7 +22,7 @@
 #' @param errorbar.length Length of the horizontal whiskers (errorbar). Defaults to half the width of the half-boxplot,
 #' or half the width of the entire boxplot if `boxplot.expand` is set to `TRUE`.
 #' 
-#' @importFrom ggplot2 layer
+#' @importFrom ggplot2 layer position_dodge2
 #' @export
 #' @examples
 #' set.seed(221)
