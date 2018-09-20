@@ -7,4 +7,8 @@
 There were no ERRORs, WARNINGs or NOTEs.
 
 ## Changes:
-* make facet_share compatible with ggplot 3.0.0
+* `StatBoxJitter` now inherits from `StatBoxplot` rather than `Stat`, making for slimmer bars.
+* `geom_boxjitter()` does not require `x` argument anymore.
+*  Added import of `ggplot2::resolution()`, `ggplot2::alpha()` and `ggplot2:PositionJitter` to `geom_boxjitter()`. (#2)
+*  Added import of `ggplot2::.pt` to `geom_bartext()`.
+*  Added import of ``grid::unit()`, `ggplot2::zeroGrob()` and `ggplot2::render_axes()` to `facet_share()`.

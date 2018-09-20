@@ -1,4 +1,4 @@
-# ggpol 0.0.3.9000
+# ggpol 0.0.4
 
 ## Minor changes
 - `StatBoxJitter` now inherits from `StatBoxplot` rather than `Stat`, making for slimmer bars.
