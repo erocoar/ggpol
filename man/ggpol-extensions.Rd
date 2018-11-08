@@ -2,7 +2,8 @@
 % Please edit documentation in R/facet_share.R, R/geom_arcbar.R,
 %   R/geom_bartext.R, R/geom_boxjitter.R, R/geom_circle.R, R/geom_parliament.R,
 %   R/geom_tshighlight.R, R/ggproto-classes.R, R/stat-arcbar.R,
-%   R/stat-boxjitter.R, R/stat-circle.R, R/stat-parliament.R
+%   R/stat-boxjitter.R, R/stat-circle.R, R/stat-parliament.R,
+%   R/geom_half_circle.R, R/stat-half-circle.R
 \docType{data}
 \name{FacetShare}
 \alias{FacetShare}
@@ -17,6 +18,8 @@
 \alias{StatBoxJitter}
 \alias{StatCircle}
 \alias{StatParliament}
+\alias{GeomHalfCircle}
+\alias{StatHalfCircle}
 \title{ggplot extensions}
 \description{
 ggplot extensions
