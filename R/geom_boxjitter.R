@@ -265,7 +265,7 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
       outliers_grob <- NULL
     }
     
-    ggplot2:::ggname("geom_boxjitter", grobTree(
+    ggname("geom_boxjitter", grobTree(
       outliers_grob,
       error_grob,
       jitter_grob,
