@@ -11,6 +11,6 @@ n_unique <- function(x) length(unique(x))
 # not exported, need to recreate
 ggname <- function (prefix, grob) 
 {
-  grob$name <- grobName(grob, prefix)
+  grob$name <- grid::grobName(grob, prefix)
   grob
 }
