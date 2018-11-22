@@ -69,10 +69,10 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
         GeomPolygon$draw_panel(cbind(poly, aes), panel_params, coord)
       })
       
-      ggplot2:::ggname("bar", do.call("grobTree", polys))
+      ggname("bar", do.call("grobTree", polys))
     } else {
       coords <- coord$transform(data, panel_params)
-      ggplot2:::ggname("geom_rect", rectGrob(
+      ggname("geom_rect", rectGrob(
         coords$xmin, coords$ymax,
         width = coords$xmax - coords$xmin,
         height = coords$ymax - coords$ymin,
