@@ -124,7 +124,6 @@ GeomConfmat <- ggproto("GeomConfmat", GeomTile,
      }
      text_df$label <- label
      missing_aes <- setdiff(names(GeomText$default_aes), names(text_df))
-     asd <<- missing_aes
      missing_eval <- lapply(GeomText$default_aes[missing_aes], rlang::eval_tidy)
      if (plyr::empty(text_df)) {
        data <- plyr::quickdf(missing_eval)
@@ -144,7 +143,7 @@ GeomConfmat <- ggproto("GeomConfmat", GeomTile,
      text_grob <- NULL
    }
    
-   ggplot2:::ggname("geom_confmat", grobTree(
+   ggname("geom_confmat", grobTree(
      GeomRect$draw_panel(data, panel_params, coord),
      text_grob
    ))
