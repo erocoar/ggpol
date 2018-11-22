@@ -72,6 +72,7 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
       # ggname("bar", do.call("grobTree", polys))
       tree <- do.call("grobTree", polys)
       tree$name <- grid::grobName(tree, "bar")
+      tree
     } else {
       coords <- coord$transform(data, panel_params)
       tree <- rectGrob(

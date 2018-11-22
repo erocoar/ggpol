@@ -27,6 +27,7 @@ StatConfmat <- ggproto("StatConfmat", Stat,
 )
 
 #' @rdname geom_confmat
+#' @param normalize Boolean indicator for whether to scale the frequency values.
 #' @importFrom ggplot2 layer
 #' @export
 stat_confmat  <- function(mapping = NULL, data = NULL, geom = "tile",

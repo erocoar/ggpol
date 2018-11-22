@@ -2,6 +2,8 @@
 #'
 #' Half boxplot, half scatterplot with customizable jitter.
 #' @inheritParams ggplot2::geom_tile
+#' @param width Width of the tiles.
+#' @param height Height of the tiles.
 #' @param annotate Boolean indicator for whether to include values as text in each tile.
 #' @param text.perc Boolean indicator for whether to add `\%` to the end of each value.
 #' @param text.digits Numeric vector equal to length one, indicating the number of digits to display. `round(x, text.digits)`.
