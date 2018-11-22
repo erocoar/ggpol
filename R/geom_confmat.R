@@ -83,7 +83,7 @@ geom_confmat <- function(
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
-#' @importFrom ggplot2 GeomTile ggproto GeomText ggname
+#' @importFrom ggplot2 GeomTile ggproto GeomText
 #' @importFrom grid grobTree
 #' @importFrom rlang eval_tidy
 #' @importFrom plyr empty quickdf
@@ -123,8 +123,8 @@ GeomConfmat <- ggproto("GeomConfmat", GeomTile,
        }
      }
      text_df$label <- label
-     
      missing_aes <- setdiff(names(GeomText$default_aes), names(text_df))
+     asd <<- missing_aes
      missing_eval <- lapply(GeomText$default_aes[missing_aes], rlang::eval_tidy)
      if (plyr::empty(text_df)) {
        data <- plyr::quickdf(missing_eval)
@@ -150,3 +150,4 @@ GeomConfmat <- ggproto("GeomConfmat", GeomTile,
    ))
   }
 )
+
