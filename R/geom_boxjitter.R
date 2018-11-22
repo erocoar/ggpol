@@ -264,13 +264,21 @@ GeomBoxJitter <- ggproto("GeomBoxJitter", GeomBoxplot,
     } else {
       outliers_grob <- NULL
     }
-    
-    ggname("geom_boxjitter", grobTree(
+    tree <- grobTree(
       outliers_grob,
       error_grob,
       jitter_grob,
       GeomSegment$draw_panel(whiskers, panel_params, coord),
       GeomCrossbar$draw_panel(box, fatten = fatten, panel_params, coord)
-    ))
+    )
+    tree$name <- grid::grobName(tree, "geom_boxjitter")
+    tree
+    # ggname("geom_boxjitter", grobTree(
+    #   outliers_grob,
+    #   error_grob,
+    #   jitter_grob,
+    #   GeomSegment$draw_panel(whiskers, panel_params, coord),
+    #   GeomCrossbar$draw_panel(box, fatten = fatten, panel_params, coord)
+    # ))
   }
 )

@@ -143,10 +143,13 @@ GeomConfmat <- ggproto("GeomConfmat", GeomTile,
      text_grob <- NULL
    }
    
-   ggname("geom_confmat", grobTree(
-     GeomRect$draw_panel(data, panel_params, coord),
-     text_grob
-   ))
+    tree <- grobTree(GeomRect$draw_panel(data, panel_params, coord),
+                     text_grob)
+    tree$name <- grid::grobName(tree, "geom_confmat")
+    tree
+   # ggname("geom_confmat", grobTree(
+   #   GeomRect$draw_panel(data, panel_params, coord),
+   #   text_grob
+   # ))
   }
 )
-

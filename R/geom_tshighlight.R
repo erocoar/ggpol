@@ -69,10 +69,12 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
         GeomPolygon$draw_panel(cbind(poly, aes), panel_params, coord)
       })
       
-      ggname("bar", do.call("grobTree", polys))
+      # ggname("bar", do.call("grobTree", polys))
+      tree <- do.call("grobTree", polys)
+      tree$name <- grid::grobName(tree, "bar")
     } else {
       coords <- coord$transform(data, panel_params)
-      ggname("geom_rect", rectGrob(
+      tree <- rectGrob(
         coords$xmin, coords$ymax,
         width = coords$xmax - coords$xmin,
         height = coords$ymax - coords$ymin,
@@ -85,7 +87,24 @@ GeomTshighlight <- ggproto("GeomRect", GeomRect,
           lty = coords$linetype,
           lineend = "butt"
         )
-      ))
+      )
+      tree$name <- grid::grobName(tree, "geom_rect")
+      tree
+      
+      # ggname("geom_rect", rectGrob(
+      #   coords$xmin, coords$ymax,
+      #   width = coords$xmax - coords$xmin,
+      #   height = coords$ymax - coords$ymin,
+      #   default.units = "native",
+      #   just = c("left", "top"),
+      #   gp = gpar(
+      #     col = coords$colour,
+      #     fill = alpha(coords$fill, coords$alpha),
+      #     lwd = coords$size * .pt,
+      #     lty = coords$linetype,
+      #     lineend = "butt"
+      #   )
+      # ))
     }
   }
 )
