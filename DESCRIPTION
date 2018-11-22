@@ -22,6 +22,7 @@ Suggests:
 	knitr,
     rmarkdown
 Collate: 
+    'utilities.R'
     'facet_share.R'
     'geom_arcbar.R'
     'geom_bartext.R'
@@ -36,4 +37,3 @@ Collate:
     'stat-circle.R'
     'stat-confmat.R'
     'stat-parliament.R'
-    'utilities.R'
