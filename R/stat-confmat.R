@@ -13,21 +13,22 @@ StatConfmat <- ggproto("StatConfmat", Stat,
     na.rm = FALSE,
     normalize = FALSE
   ) {
-    dat <- table(data$x, data$y)
-    if (isTRUE(normalize)) {
-      dat <- dat / rowSums(dat)
-    }
-    dat <- as.data.frame(dat)
+    dat <- as.data.frame(table(data$x, data$y))
     colnames(dat)[seq(2)] <- c("x", "y")
-    dat[, seq(2)] <- lapply(dat[, seq(2)], function(x) as.numeric(as.character(x)))
+    dat$Normalized <- dat$Freq / tapply(dat$Freq, dat$x, sum)[dat$x]
+    if (isTRUE(normalize)) {
+      dat$Freq <- dat$Normalized
+    }
+    dat[, seq(3)] <- lapply(dat[, seq(3)], function(x) as.numeric(as.character(x)))
     dat$PANEL <- data$PANEL[1]
     dat$group <- seq_v(dat)
     dat
   }
 )
 
-#' @rdname geom_confmat
+#' @rdname GeomConfmat
 #' @param normalize Boolean indicator for whether to scale the frequency values.
+#' @inheritParams ggplot2::stat_identity
 #' @importFrom ggplot2 layer
 #' @export
 stat_confmat  <- function(mapping = NULL, data = NULL, geom = "tile",
