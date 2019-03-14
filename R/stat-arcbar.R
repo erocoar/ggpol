@@ -25,24 +25,20 @@ StatArcbar <- ggproto("StatArcbar", Stat,
   required_aes = c("shares", "r0", "r1"),
   
   compute_panel = function(data, scales, n = 360, sep = 0.05) {
-    
     if (all(data$shares >= 1)) {
       data$shares <- data$shares / sum(data$shares)
     }
     
-    if (sep > 0) {
-      data$shares <- data$shares * (1 - sep)
-      sep_shares <- rep(data$shares, c(rep(2, length(data$shares) - 1), 1))
-      sep_shares[seq(2, (length(sep_shares) - 1), 2)] <- sep / (length(data$shares) - 1)
-      
-      cc <- rev(cumsum(c(0, sep_shares * pi)))
-      cc[1] <- pi
-      cc[length(cc)] <- 0
-      cc <- rbind(cc[seq(1, length(cc), 2)], cc[seq(2, length(cc), 2)])
-    } else {
-      cc <- rev(cumsum(c(0, data$shares * pi)))
-    }
+    data$shares <- data$shares * (1 - sep)
+    sep_shares <- rep(data$shares, c(rep(2, length(data$shares) - 1), 1))
+    sep_shares[seq(2, (length(sep_shares) - 1), 2)] <- sep / (length(data$shares) - 1)
     
+    cc <- rev(cumsum(c(0, sep_shares * pi)))
+
+    cc[1] <- pi
+    cc[length(cc)] <- 0
+    cc <- rbind(cc[seq(1, length(cc), 2)], cc[seq(2, length(cc), 2)])
+
     df <- lapply(1:nrow(data), function(i) {
       arc_seq <- seq(cc[1, i], cc[2, i], length.out = n)
       
