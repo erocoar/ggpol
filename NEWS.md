@@ -1,5 +1,10 @@
 # ggpol 0.0.4.9000
+
+## New features
 - `geom_confmat` for easy embedding of confusion matrices in `ggplot2` pipeline.
+
+## Minor changes
+- `geom_arcbar` permits setting `sep = 0` for no separation between individual parts.
 
 # ggpol 0.0.4
 
