@@ -5,16 +5,16 @@
 \title{A hybrid boxplot.}
 \usage{
 geom_boxjitter(mapping = NULL, data = NULL, stat = "BoxJitter",
-  position = "dodge", ..., outlier.colour = NULL, outlier.color = NULL,
-  outlier.fill = NULL, outlier.shape = 19, outlier.size = 1.5,
-  outlier.stroke = 0.5, outlier.alpha = NULL, outlier.intersect = FALSE,
-  jitter.colour = NULL, jitter.color = NULL, jitter.fill = NULL,
-  jitter.shape = 19, jitter.size = 1.5, jitter.stroke = 0.5,
-  jitter.alpha = NULL, jitter.width = NULL, jitter.height = NULL,
-  jitter.seed = NULL, boxplot.expand = FALSE, notch = FALSE,
-  notchwidth = 0.5, varwidth = FALSE, errorbar.draw = FALSE,
-  errorbar.length = 0.5, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  position = "dodge", ..., outlier.colour = NULL,
+  outlier.color = NULL, outlier.fill = NULL, outlier.shape = 19,
+  outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
+  outlier.intersect = FALSE, jitter.colour = NULL,
+  jitter.color = NULL, jitter.fill = NULL, jitter.shape = 19,
+  jitter.size = 1.5, jitter.stroke = 0.5, jitter.alpha = NULL,
+  jitter.width = NULL, jitter.height = NULL, jitter.seed = NULL,
+  boxplot.expand = FALSE, notch = FALSE, notchwidth = 0.5,
+  varwidth = FALSE, errorbar.draw = FALSE, errorbar.length = 0.5,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

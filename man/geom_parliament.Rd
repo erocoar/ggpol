@@ -6,12 +6,12 @@
 \title{Create a Parliament Diagram}
 \usage{
 geom_parliament(mapping = NULL, data = NULL, stat = "parliament",
-  position = "identity", r0 = 1.5, r1 = 3, n = 360, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", r0 = 1.5, r1 = 3, n = 360,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 
 stat_parliament(mapping = NULL, data = NULL, geom = "parliament",
-  position = "identity", r0 = 1.5, r1 = 3, n = 360, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", r0 = 1.5, r1 = 3, n = 360,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or

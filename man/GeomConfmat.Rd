@@ -7,12 +7,13 @@
 \title{Confusion Matrix}
 \usage{
 geom_confmat(mapping = NULL, data = NULL, stat = "confmat",
-  position = "identity", width = NULL, height = NULL, annotate = TRUE,
-  text.perc = FALSE, text.digits = 3, text.alpha = NULL,
-  text.angle = NULL, text.colour = NULL, text.family = NULL,
-  text.fontface = NULL, text.group = NULL, text.hjust = NULL,
-  text.lineheight = NULL, text.size = NULL, text.vjust = NULL, ...,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  position = "identity", width = NULL, height = NULL,
+  annotate = TRUE, text.perc = FALSE, text.digits = 3,
+  text.alpha = NULL, text.angle = NULL, text.colour = NULL,
+  text.family = NULL, text.fontface = NULL, text.group = NULL,
+  text.hjust = NULL, text.lineheight = NULL, text.size = NULL,
+  text.vjust = NULL, ..., na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 
 stat_confmat(mapping = NULL, data = NULL, geom = "tile",
   position = "identity", show.legend = NA, inherit.aes = TRUE,

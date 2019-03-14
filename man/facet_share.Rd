@@ -4,9 +4,9 @@
 \alias{facet_share}
 \title{A shared axis for two panels}
 \usage{
-facet_share(facets, scales = "fixed", reverse_num = FALSE, shrink = TRUE,
-  labeller = "label_value", as.table = TRUE, switch = NULL, drop = TRUE,
-  dir = "h", strip.position = "top")
+facet_share(facets, scales = "fixed", reverse_num = FALSE,
+  shrink = TRUE, labeller = "label_value", as.table = TRUE,
+  switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 }
 \arguments{
 \item{facets}{A set of variables or expressions quoted by \code{\link[=vars]{vars()}}

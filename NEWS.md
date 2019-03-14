@@ -1,4 +1,4 @@
-# ggpol 0.0.4.9000
+# ggpol 0.0.5
 
 ## New features
 - `geom_confmat` for easy embedding of confusion matrices in `ggplot2` pipeline.
