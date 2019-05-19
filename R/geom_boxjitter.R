@@ -36,7 +36,7 @@
 #'                             outlier.color = NA, errorbar.draw = TRUE) +
 #'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
 #'   theme_minimal()
-geom_boxjitter2 <- function(mapping = NULL, data = NULL,
+geom_boxjitter <- function(mapping = NULL, data = NULL,
                            stat = "BoxJitter", position = "dodge",
                            ...,
                            outlier.colour = NULL,
@@ -82,7 +82,7 @@ geom_boxjitter2 <- function(mapping = NULL, data = NULL,
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomBoxJitter2,
+    geom = GeomBoxJitter,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -123,7 +123,7 @@ geom_boxjitter2 <- function(mapping = NULL, data = NULL,
 #' @importFrom ggplot2 alpha ggproto GeomBoxplot aes GeomSegment GeomPoint GeomCrossbar resolution PositionJitter
 #' @importFrom grid grobTree
 #' @export
-GeomBoxJitter2 <- ggproto("GeomBoxJitter2", GeomBoxplot,
+GeomBoxJitter <- ggproto("GeomBoxJitter2", GeomBoxplot,
   default_aes = aes(weight = 1, colour = "grey20", fill = "white", size = 0.5,
                     alpha = NA, shape = 19, linetype = "solid"),
   
