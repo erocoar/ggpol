@@ -1,3 +1,8 @@
+# ggpol 0.0.5.9000
+
+## Minor changes
+- fix `jitter.seed` argument for `geom_boxjitter`
+
 # ggpol 0.0.5
 
 ## New features
