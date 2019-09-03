@@ -11,10 +11,11 @@ geom_boxjitter(mapping = NULL, data = NULL, stat = "BoxJitter",
   outlier.intersect = FALSE, jitter.colour = NULL,
   jitter.color = NULL, jitter.fill = NULL, jitter.shape = 19,
   jitter.size = 1.5, jitter.stroke = 0.5, jitter.alpha = NULL,
-  jitter.width = NULL, jitter.height = NULL, jitter.seed = NULL,
-  boxplot.expand = FALSE, notch = FALSE, notchwidth = 0.5,
-  varwidth = FALSE, errorbar.draw = FALSE, errorbar.length = 0.5,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  jitter.position = ggplot2::PositionJitter, jitter.params = list(width
+  = NULL, height = NULL), boxplot.expand = FALSE, notch = FALSE,
+  notchwidth = 0.5, varwidth = FALSE, errorbar.draw = FALSE,
+  errorbar.length = 0.5, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
@@ -34,7 +35,8 @@ data. All objects will be fortified to produce a data frame. See
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{Use to override the default connection between
 \code{geom_boxplot} and \code{stat_boxplot}.}
@@ -136,12 +138,6 @@ same with outliers shown and outliers hidden.}
 
 \item{jitter.colour, jitter.color, jitter.fill, jitter.shape, jitter.size, jitter.stroke, jitter.alpha}{Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.}
 
-\item{jitter.width}{Width passed to position_jitter. Defaults to half the width of the boxplot.}
-
-\item{jitter.height}{Height passed to position_jitter. Defaults to 40 percent of the resolution.}
-
-\item{jitter.seed}{Seed passed to position_jitter for reproducible jittering.}
-
 \item{boxplot.expand}{Defaults to `FALSE`. If set to `TRUE`, the full boxplots will be plotted.}
 
 \item{notch}{If \code{FALSE} (default) make a standard box plot. If
@@ -175,6 +171,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+
+\item{jitter.width}{Width passed to position_jitter. Defaults to half the width of the boxplot.}
+
+\item{jitter.height}{Height passed to position_jitter. Defaults to 40 percent of the resolution.}
+
+\item{jitter.seed}{Seed passed to position_jitter for reproducible jittering.}
 }
 \description{
 Half boxplot, half scatterplot with customizable jitter.
@@ -186,8 +188,7 @@ df <- data.frame(score = rgamma(150, 4, 1),
                  genotype = factor(sample(1:3, 150, replace = TRUE)))
 
 ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
-                            jitter.shape = 21, jitter.color = NA, 
-                            jitter.height = 0, jitter.width = 0.04,
+                            jitter.shape = 21, jitter.color = NA,
                             outlier.color = NA, errorbar.draw = TRUE) +
   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
   theme_minimal()

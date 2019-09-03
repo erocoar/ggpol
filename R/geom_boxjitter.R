@@ -31,8 +31,7 @@
 #'                  genotype = factor(sample(1:3, 150, replace = TRUE)))
 #' 
 #' ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
-#'                             jitter.shape = 21, jitter.color = NA, 
-#'                             jitter.height = 0, jitter.width = 0.04,
+#'                             jitter.shape = 21, jitter.color = NA,
 #'                             outlier.color = NA, errorbar.draw = TRUE) +
 #'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
 #'   theme_minimal()
