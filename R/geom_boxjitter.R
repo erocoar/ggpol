@@ -9,11 +9,9 @@
 #' @param jitter.colour,jitter.color,jitter.fill,jitter.shape,jitter.size,jitter.stroke,jitter.alpha
 #' Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.
 #' 
-#' @param jitter.width Width passed to position_jitter. Defaults to half the width of the boxplot.
+#' @param jitter.position Position object used for calculating jitter (defaults to `ggplot2::PositionJitter`).
 #' 
-#' @param jitter.height Height passed to position_jitter. Defaults to 40 percent of the resolution.
-#' 
-#' @param jitter.seed Seed passed to position_jitter for reproducible jittering.
+#' @param jitter.params Parameters passed to `jitter.position` (for `ggplot2::PositionJitter`, this is `width`, `height` and `seed`).
 #' 
 #' @param boxplot.expand Defaults to `FALSE`. If set to `TRUE`, the full boxplots will be plotted.
 #' 
