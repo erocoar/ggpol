@@ -15,15 +15,14 @@
 #'                  genotype = factor(sample(1:3, 150, replace = TRUE)))
 #' 
 #' ggplot(df) + geom_boxjitter(aes(x = gender, y = score, fill = genotype),
-#'                             jitter.shape = 21, jitter.color = NA, 
-#'                             jitter.height = 0, jitter.width = 0.04,
-#'                             outlier.color = NA, errorbar.draw = TRUE) +
+#'                             errorbar.draw = TRUE) +
 #'   scale_fill_manual(values = c("#CF3721", "#31A9B8", "#258039")) +
 #'   theme_minimal()
 geom_half_boxplot <- function(
   mapping = NULL, data = NULL,
   stat = "boxplot", position = "dodge2",
   ...,
+  side = "l",
   outlier.colour = NULL,
   outlier.color = NULL,
   outlier.fill = NULL,
@@ -58,6 +57,7 @@ geom_half_boxplot <- function(
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
+      side = side,
       outlier.colour = outlier.color %||% outlier.colour,
       outlier.fill = outlier.fill,
       outlier.shape = outlier.shape,
@@ -82,18 +82,23 @@ geom_half_boxplot <- function(
 #' @importFrom grid grobTree
 #' @export
 GeomHalfBoxplot <- ggproto("GeomHalfBoxplot", GeomBoxplot,
-
+  setup_data = function(data, params) {
+    ddtest <<- data
+    dd <- GeomBoxplot$setup_data(data, params)
+    ddtest2 <<- dd
+    dd
+  },
+                           
   draw_group = function(
     data, panel_params, coord, fatten = 2,
+    side = "l",
     outlier.colour = NULL, outlier.fill = NULL,
-    outlier.shape = 19,
-    outlier.size = 1.5, outlier.stroke = 0.5,
-    outlier.alpha = NULL,
+    outlier.shape = 19, outlier.size = 1.5, 
+    outlier.stroke = 0.5, outlier.alpha = NULL,
     jitter.position = ggplot2::PositionJitter,
     jitter.params = list("width" = NULL, "height" = NULL),
-    boxplot.expand = FALSE,
-    notch = FALSE, notchwidth = 0.5, varwidth = FALSE,
-    errorbar.draw = FALSE, errorbar.length = 0.5) {
+    notch = FALSE, notchwidth = 0.5, 
+    varwidth = FALSE, errorbar.draw = FALSE, errorbar.length = 0.5) {
     
     if (nrow(data) != 1) {
       stop(
@@ -101,8 +106,9 @@ GeomHalfBoxplot <- ggproto("GeomHalfBoxplot", GeomBoxplot,
         call. = FALSE
       )
     }
-    xrange <- data$xmax - data$xmin
     
+    xrange <- data$xmax - data$xmin
+    ddb <<- data
     common <- data.frame(
       colour = data$colour,
       size = data$size,
@@ -126,16 +132,12 @@ GeomHalfBoxplot <- ggproto("GeomHalfBoxplot", GeomBoxplot,
     if (errorbar.length > 1 | errorbar.length < 0) {
       stop("Error bar length must be between 0 and 1.")
     }
-    error_length_add <- ((data$xmin + xrange / 2) - data$xmin) 
-    if (boxplot.expand) { #last term ^2 if want to do both sides
-      error_length_add <- error_length_add * (1 - errorbar.length)^2 
-    } else { 
-      error_length_add <- error_length_add * (1 - errorbar.length)
-      }
-                             
+    error_length_add <- ((data$xmin + xrange / 2) - data$xmin)
+    error_length_add <- error_length_add * (1 - errorbar.length)
+
     error_whiskers <- data.frame(
-      x = data$xmin + error_length_add,
-      xend = if (boxplot.expand) data$xmax - error_length_add else (data$xmin + xrange / 2),
+      x = (data$xmin + xrange / 2),
+      xend = if (side == "r") data$xmax - error_length_add else data$xmin + error_length_add,
       y = c(data$ymax, data$ymin),
       yend = c(data$ymax, data$ymin),
       alpha = NA,
@@ -147,9 +149,10 @@ GeomHalfBoxplot <- ggproto("GeomHalfBoxplot", GeomBoxplot,
     } else {
       error_grob <- NULL
     }
+    
     box <- data.frame(
-      xmin = data$xmin,
-      xmax = if (boxplot.expand) data$xmax else data$xmin + xrange / 2,
+      xmin = if (side == "r") data$xmax else data$xmin,
+      xmax = (data$xmin + xrange / 2),
       ymin = data$lower,
       y = data$middle,
       ymax = data$upper,
