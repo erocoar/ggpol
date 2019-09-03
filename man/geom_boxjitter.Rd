@@ -138,6 +138,10 @@ same with outliers shown and outliers hidden.}
 
 \item{jitter.colour, jitter.color, jitter.fill, jitter.shape, jitter.size, jitter.stroke, jitter.alpha}{Default aesthetics for jitter, set to `NULL` to inherit from the aesthetics used for the box.}
 
+\item{jitter.position}{Position object used for calculating jitter (defaults to `ggplot2::PositionJitter`).}
+
+\item{jitter.params}{Parameters passed to `jitter.position` (for `ggplot2::PositionJitter`, this is `width`, `height` and `seed`).}
+
 \item{boxplot.expand}{Defaults to `FALSE`. If set to `TRUE`, the full boxplots will be plotted.}
 
 \item{notch}{If \code{FALSE} (default) make a standard box plot. If
@@ -171,12 +175,6 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
-
-\item{jitter.width}{Width passed to position_jitter. Defaults to half the width of the boxplot.}
-
-\item{jitter.height}{Height passed to position_jitter. Defaults to 40 percent of the resolution.}
-
-\item{jitter.seed}{Seed passed to position_jitter for reproducible jittering.}
 }
 \description{
 Half boxplot, half scatterplot with customizable jitter.
