@@ -6,7 +6,13 @@
 `ggpol` adds parliament diagrams and various other visualizations and convenience functions to `ggplot2`.
 
 ### Installation
-`ggpol` can be installed via GitHub:
+`ggpol` can be installed via CRAN:
+
+```r
+install.packages("ggpol")
+```
+
+Alternatively, the development version can be installed via GitHub:
 
 ```r
 if (!require(devtools)) {
