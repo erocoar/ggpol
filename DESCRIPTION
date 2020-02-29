@@ -23,7 +23,6 @@ Suggests:
     rmarkdown
 Collate: 
     'utilities.R'
-    'facet_share.R'
     'geom_arcbar.R'
     'geom_bartext.R'
     'geom_boxjitter.R'
