@@ -1,4 +1,4 @@
-# ggpol 0.0.5.9000
+# ggpol 0.0.6
 
 ## Major changes
 - `facet_share` has been removed for ggpol version 0.0.6, as changes to make it compatible with all newer versions of `ggplot2` will take some more time.
