@@ -1,10 +1,8 @@
 # ggpol 0.0.6
 
-## Major changes
-- `facet_share` has been removed for ggpol version 0.0.6, as changes to make it compatible with all newer versions of `ggplot2` will take some more time.
-
 ## Minor changes
 - fix `jitter.seed` argument for `geom_boxjitter`
+- internal changes in `facet_share` to make it compatible with new versions of `ggplot2` and `grid`
 
 # ggpol 0.0.5
 
