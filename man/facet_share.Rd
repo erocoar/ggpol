@@ -4,12 +4,21 @@
 \alias{facet_share}
 \title{A shared axis for two panels}
 \usage{
-facet_share(facets, scales = "fixed", reverse_num = FALSE,
-  shrink = TRUE, labeller = "label_value", as.table = TRUE,
-  switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
+facet_share(
+  facets,
+  scales = "fixed",
+  reverse_num = FALSE,
+  shrink = TRUE,
+  labeller = "label_value",
+  as.table = TRUE,
+  switch = NULL,
+  drop = TRUE,
+  dir = "h",
+  strip.position = "top"
+)
 }
 \arguments{
-\item{facets}{A set of variables or expressions quoted by \code{\link[=vars]{vars()}}
+\item{facets}{A set of variables or expressions quoted by \code{\link[ggplot2:vars]{vars()}}
 and defining faceting groups on the rows or columns dimension.
 The variables can be named (the names are passed to \code{labeller}).
 
@@ -34,9 +43,9 @@ column corresponds to one factor. Thus there will be more than
 one with \code{vars(cyl, am)}. Each output
 column gets displayed as one separate line in the strip
 label. This function should inherit from the "labeller" S3 class
-for compatibility with \code{\link[=labeller]{labeller()}}. You can use different labeling
-functions for different kind of labels, for example use \code{\link[=label_parsed]{label_parsed()}} for
-formatting facet labels. \code{\link[=label_value]{label_value()}} is used by default,
+for compatibility with \code{\link[ggplot2:labeller]{labeller()}}. You can use different labeling
+functions for different kind of labels, for example use \code{\link[ggplot2:label_parsed]{label_parsed()}} for
+formatting facet labels. \code{\link[ggplot2:label_value]{label_value()}} is used by default,
 check it for more details and pointers to other options.}
 
 \item{as.table}{If \code{TRUE}, the default, the facets are laid out like

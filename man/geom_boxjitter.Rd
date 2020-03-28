@@ -4,22 +4,43 @@
 \alias{geom_boxjitter}
 \title{A hybrid boxplot.}
 \usage{
-geom_boxjitter(mapping = NULL, data = NULL, stat = "BoxJitter",
-  position = "dodge", ..., outlier.colour = NULL,
-  outlier.color = NULL, outlier.fill = NULL, outlier.shape = 19,
-  outlier.size = 1.5, outlier.stroke = 0.5, outlier.alpha = NULL,
-  outlier.intersect = FALSE, jitter.colour = NULL,
-  jitter.color = NULL, jitter.fill = NULL, jitter.shape = 19,
-  jitter.size = 1.5, jitter.stroke = 0.5, jitter.alpha = NULL,
-  jitter.position = ggplot2::PositionJitter, jitter.params = list(width
-  = NULL, height = NULL), boxplot.expand = FALSE, notch = FALSE,
-  notchwidth = 0.5, varwidth = FALSE, errorbar.draw = FALSE,
-  errorbar.length = 0.5, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+geom_boxjitter(
+  mapping = NULL,
+  data = NULL,
+  stat = "BoxJitter",
+  position = "dodge",
+  ...,
+  outlier.colour = NULL,
+  outlier.color = NULL,
+  outlier.fill = NULL,
+  outlier.shape = 19,
+  outlier.size = 1.5,
+  outlier.stroke = 0.5,
+  outlier.alpha = NULL,
+  outlier.intersect = FALSE,
+  jitter.colour = NULL,
+  jitter.color = NULL,
+  jitter.fill = NULL,
+  jitter.shape = 19,
+  jitter.size = 1.5,
+  jitter.stroke = 0.5,
+  jitter.alpha = NULL,
+  jitter.position = ggplot2::PositionJitter,
+  jitter.params = list(width = NULL, height = NULL),
+  boxplot.expand = FALSE,
+  notch = FALSE,
+  notchwidth = 0.5,
+  varwidth = FALSE,
+  errorbar.draw = FALSE,
+  errorbar.length = 0.5,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -27,11 +48,11 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data. All objects will be fortified to produce a data frame. See
-\code{\link[=fortify]{fortify()}} for which variables will be created.
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
@@ -44,7 +65,7 @@ from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{Other arguments passed on to \code{\link[=layer]{layer()}}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
@@ -174,7 +195,7 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 }
 \description{
 Half boxplot, half scatterplot with customizable jitter.
