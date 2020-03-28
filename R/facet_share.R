@@ -59,9 +59,9 @@ facet_share <- function(facets, scales = "fixed",
 
   strip.position <- match.arg(strip.position, c("top", "bottom", "left", "right", "outer"))
   
-  labeller <- ggplot2:::check_labeller(labeller)
+  labeller <- check_labeller(labeller)
   
-  facets <- ggplot2:::wrap_as_facets_list(facets)
+  facets <- wrap_as_facets_list(facets)
 
   ggproto(NULL, FacetShare,
           shrink = shrink,
@@ -84,6 +84,7 @@ facet_share <- function(facets, scales = "fixed",
 #' @importFrom ggplot2 zeroGrob render_axes
 #' @importFrom grid unit convertWidth grobWidth convertHeight grobHeight
 #' @importFrom gtable gtable_matrix gtable_add_col_space gtable_add_row_space gtable_add_grob
+#' @importFrom  rlang warn is_symbol quos_auto_name quo_is_symbol quo_is_null quo_get_expr parse_exprs parse_expr new_quosures is_string is_quosures is_quosure is_list is_formula is_bare_list flatten_if f_env expr as_quosures abort
 #' @export
 FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
   shrink = TRUE,
@@ -245,3 +246,316 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
       }
     panel_table
 })
+
+#' @importFrom glue glue
+check_labeller <- function(labeller) {
+  labeller <- match.fun(labeller)
+  is_deprecated <- all(c("variable", "value") %in% names(formals(labeller)))
+  
+  if (is_deprecated) {
+    old_labeller <- labeller
+    labeller <- function(labels) {
+      Map(old_labeller, names(labels), labels)
+    }
+    warn(glue(
+      "The labeller API has been updated. Labellers taking `variable` ",
+      "and `value` arguments are now deprecated. See labellers documentation."))
+  }
+  
+  labeller
+}
+
+
+wrap_as_facets_list <- function(x) {
+  facets_list <- as_facets_list(x)
+  compact_facets(facets_list)
+}
+
+
+as_facets_list <- function(x) {
+  if (inherits(x, "uneval")) {
+    abort("Please use `vars()` to supply facet variables")
+  }
+  if (is_quosures(x)) {
+    x <- quos_auto_name(x)
+    return(list(x))
+  }
+  
+  # This needs to happen early because we might get a formula.
+  # facet_grid() directly converted strings to a formula while
+  # facet_wrap() called as.quoted(). Hence this is a little more
+  # complicated for backward compatibility.
+  if (is_string(x)) {
+    x <- parse_expr(x)
+  }
+  
+  # At this level formulas are coerced to lists of lists for backward
+  # compatibility with facet_grid(). The LHS and RHS are treated as
+  # distinct facet dimensions and `+` defines multiple facet variables
+  # inside each dimension.
+  if (is_formula(x)) {
+    return(f_as_facets_list(x))
+  }
+  
+  # For backward-compatibility with facet_wrap()
+  if (!is_bare_list(x)) {
+    x <- as_quoted(x)
+  }
+  
+  # If we have a list there are two possibilities. We may already have
+  # a proper facet spec structure. Otherwise we coerce each element
+  # with as_quoted() for backward compatibility with facet_grid().
+  if (is.list(x)) {
+    x <- lapply(x, as_facets)
+  }
+  
+  x
+}
+
+as_facets_list <- function(x) {
+  if (inherits(x, "uneval")) {
+    abort("Please use `vars()` to supply facet variables")
+  }
+  if (is_quosures(x)) {
+    x <- quos_auto_name(x)
+    return(list(x))
+  }
+  
+  # This needs to happen early because we might get a formula.
+  # facet_grid() directly converted strings to a formula while
+  # facet_wrap() called as.quoted(). Hence this is a little more
+  # complicated for backward compatibility.
+  if (is_string(x)) {
+    x <- parse_expr(x)
+  }
+  
+  # At this level formulas are coerced to lists of lists for backward
+  # compatibility with facet_grid(). The LHS and RHS are treated as
+  # distinct facet dimensions and `+` defines multiple facet variables
+  # inside each dimension.
+  if (is_formula(x)) {
+    return(f_as_facets_list(x))
+  }
+  
+  # For backward-compatibility with facet_wrap()
+  if (!is_bare_list(x)) {
+    x <- as_quoted(x)
+  }
+  
+  # If we have a list there are two possibilities. We may already have
+  # a proper facet spec structure. Otherwise we coerce each element
+  # with as_quoted() for backward compatibility with facet_grid().
+  if (is.list(x)) {
+    x <- lapply(x, as_facets)
+  }
+  
+  x
+}
+
+# Flatten a list of quosures objects to a quosures object, and compact it
+compact_facets <- function(x) {
+  x <- flatten_if(x, is_list)
+  null <- vapply(x, quo_is_null, logical(1))
+  new_quosures(x[!null])
+}
+
+# Compatibility with plyr::as.quoted()
+as_quoted <- function(x) {
+  if (is.character(x)) {
+    if (length(x) > 1) {
+      x <- paste(x, collapse = "; ")
+    }
+    return(parse_exprs(x))
+  }
+  if (is.null(x)) {
+    return(list())
+  }
+  if (is_formula(x)) {
+    return(simplify(x))
+  }
+  list(x)
+}
+# From plyr:::as.quoted.formula
+simplify <- function(x) {
+  if (length(x) == 2 && is_symbol(x[[1]], "~")) {
+    return(simplify(x[[2]]))
+  }
+  if (length(x) < 3) {
+    return(list(x))
+  }
+  op <- x[[1]]; a <- x[[2]]; b <- x[[3]]
+  
+  if (is_symbol(op, c("+", "*", "~"))) {
+    c(simplify(a), simplify(b))
+  } else if (is_symbol(op, "-")) {
+    c(simplify(a), expr(-!!simplify(b)))
+  } else {
+    list(x)
+  }
+}
+
+f_as_facets_list <- function(f) {
+  lhs <- function(x) if (length(x) == 2) NULL else x[-3]
+  rhs <- function(x) if (length(x) == 2) x else x[-2]
+  
+  rows <- f_as_facets(lhs(f))
+  cols <- f_as_facets(rhs(f))
+  
+  list(rows, cols)
+}
+
+as_facets <- function(x) {
+  if (is_facets(x)) {
+    return(x)
+  }
+  
+  if (is_formula(x)) {
+    # Use different formula method because plyr's does not handle the
+    # environment correctly.
+    f_as_facets(x)
+  } else {
+    vars <- as_quoted(x)
+    as_quosures(vars, globalenv(), named = TRUE)
+  }
+}
+f_as_facets <- function(f) {
+  if (is.null(f)) {
+    return(as_quosures(list()))
+  }
+  
+  env <- f_env(f) %||% globalenv()
+  
+  # as.quoted() handles `+` specifications
+  vars <- as.quoted(f)
+  
+  # `.` in formulas is ignored
+  vars <- discard_dots(vars)
+  
+  as_quosures(vars, env, named = TRUE)
+}
+discard_dots <- function(x) {
+  x[!vapply(x, identical, logical(1), as.name("."))]
+}
+
+is_facets <- function(x) {
+  if (!is.list(x)) {
+    return(FALSE)
+  }
+  if (!length(x)) {
+    return(FALSE)
+  }
+  all(vapply(x, is_quosure, logical(1)))
+}
+
+
+# When evaluating variables in a facet specification, we evaluate bare
+# variables and expressions slightly differently. Bare variables should
+# always succeed, even if the variable doesn't exist in the data frame:
+# that makes it possible to repeat data across multiple factors. But
+# when evaluating an expression, you want to see any errors. That does
+# mean you can't have background data when faceting by an expression,
+# but that seems like a reasonable tradeoff.
+#' @importFrom tibble as_tibble
+eval_facets <- function(facets, data, env = globalenv()) {
+  vars <- compact(lapply(facets, eval_facet, data, env = env))
+  new_data_frame(as_tibble(vars))
+}
+eval_facet <- function(facet, data, env = emptyenv()) {
+  if (quo_is_symbol(facet)) {
+    facet <- as.character(quo_get_expr(facet))
+    
+    if (facet %in% names(data)) {
+      out <- data[[facet]]
+    } else {
+      out <- NULL
+    }
+    return(out)
+  }
+  
+  eval_tidy(facet, data, env)
+}
+
+layout_null <- function() {
+  # PANEL needs to be a factor to be consistent with other facet types
+  new_data_frame(list(PANEL = factor(1), ROW = 1, COL = 1, SCALE_X = 1, SCALE_Y = 1))
+}
+
+check_layout <- function(x) {
+  if (all(c("PANEL", "SCALE_X", "SCALE_Y") %in% names(x))) {
+    return()
+  }
+  
+  abort("Facet layout has bad format. It must contain columns 'PANEL', 'SCALE_X', and 'SCALE_Y'")
+}
+
+as.quoted <- function (x, env = parent.frame()) 
+{
+  x <- if (is.character(x)) {
+    lapply(x, function(x) parse(text = x)[[1]])
+  }
+  else if (is.formula(x)) {
+    simplify_formula(x)
+  }
+  else if (is.call(x)) {
+    as.list(x)[-1]
+  }
+  else {
+    abort("Only knows how to quote characters, calls, and formula")
+  }
+  attributes(x) <- list(env = env, class = "quoted")
+  x
+}
+
+compact <- function (x) 
+{
+  null <- vapply(x, is.null, logical(1))
+  x[!null]
+}
+
+is.formula <- function (x)  inherits(x, "formula")
+
+new_data_frame <- function (x = list(), n = NULL) 
+{
+  if (length(x) != 0 && is.null(names(x))) {
+    abort("Elements must be named")
+  }
+  lengths <- vapply(x, length, integer(1))
+  if (is.null(n)) {
+    n <- if (length(x) == 0 || min(lengths) == 0) 
+      0
+    else max(lengths)
+  }
+  for (i in seq_along(x)) {
+    if (lengths[i] == n) 
+      next
+    if (lengths[i] != 1) {
+      abort("Elements must equal the number of rows or 1")
+    }
+    x[[i]] <- rep(x[[i]], n)
+  }
+  class(x) <- "data.frame"
+  attr(x, "row.names") <- .set_row_names(n)
+  x
+}
+
+simplify_formula <- function (x) 
+{
+  if (length(x) == 2 && x[[1]] == as.name("~")) {
+    return(simplify(x[[2]]))
+  }
+  if (length(x) < 3) 
+    return(list(x))
+  op <- x[[1]]
+  a <- x[[2]]
+  b <- x[[3]]
+  if (op == as.name("+") || op == as.name("*") || op == as.name("~")) {
+    c(simplify(a), simplify(b))
+  }
+  else if (op == as.name("-")) {
+    c(simplify(a), bquote(-.(x), list(x = simplify(b))))
+  }
+  else {
+    list(x)
+  }
+}
+

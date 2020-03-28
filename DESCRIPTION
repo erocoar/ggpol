@@ -16,11 +16,13 @@ Imports:
 	grDevices,
 	plyr,
 	rlang,
-	dplyr
+	dplyr,
+	tibble,
+	glue
 RoxygenNote: 6.1.1
 Suggests:
 	knitr,
-    rmarkdown
+    	rmarkdown
 Collate: 
     'facet_share.R'
     'utilities.R'
