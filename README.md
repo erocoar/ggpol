@@ -55,7 +55,7 @@ df <- data.frame(score = rgamma(150, 4, 1),
 
 ggplot(df) + geom_boxjitter(aes(x = genotype, y = score, fill = gender),
                             jitter.shape = 21, jitter.color = NA, 
-                            jitter.height = 0, jitter.width = 0.04,
+                            jitter.params = list(height = 0, width = 0.04),
                             outlier.color = NA, errorbar.draw = TRUE) +
   scale_fill_manual(values = c("#ecb21e", "#812e91")) +
   theme_minimal()
