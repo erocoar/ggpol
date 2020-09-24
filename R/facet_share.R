@@ -145,8 +145,8 @@ FacetShare <- ggproto("FacetShare", ggplot2::FacetWrap,
         
       shared_axis <- gtable::gtable_matrix(
         "shared.ax.y", shared_axis,
-        widths = unit(c(axes$y$left[[1]]$children$axis$widths[[tick_idx]], 1,
-                        axes$y$left[[1]]$children$axis$widths[[tick_idx]]),
+        widths = unit(c(as.numeric(axes$y$left[[1]]$children$axis$widths[[tick_idx]]), 1,
+                        as.numeric(axes$y$left[[1]]$children$axis$widths[[tick_idx]])),
                       c("pt", "grobwidth", "pt"),
                       list(NULL, axes$y$left[[1]]$children$axis$grobs[[lab_idx]], NULL)),
         heights = unit(1, "npc"), clip = "off")
