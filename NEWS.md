@@ -1,3 +1,9 @@
+# ggpol 0.0.7
+
+## Minor changes
+- updated documentation, thanks to @romagnolid
+- fixed unit error when creating shared axes, thanks to @martinschmelzer
+
 # ggpol 0.0.6
 
 ## Minor changes
