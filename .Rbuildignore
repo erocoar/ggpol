@@ -7,3 +7,4 @@
 ^NEWS$
 ^README\.Rmd$
 ^docs$
+^\.github$

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/erocoar/ggpol.svg?branch=master)](https://travis-ci.org/erocoar/ggpol)
+[![R-CMD-check](https://github.com/erocoar/ggpol/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erocoar/ggpol/actions/workflows/R-CMD-check.yaml)
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ggpol)](https://CRAN.R-project.org/package=ggpol)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggpol)](https://CRAN.R-project.org/package=ggpol)
 
